@@ -2,9 +2,9 @@ package com.kaio.SmartApp.web.controller;
 
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kaio.SmartApp.entity.Cliente;
@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/Clientes")
-
 public class ClienteController {
     private final ClienteService clienteService;
     @GetMapping

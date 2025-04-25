@@ -17,22 +17,24 @@ public class ProfissionalService {
     private final ProfissionalRepository profissionalRepository;
 
     @Transactional(readOnly = true)
-    public List<Profissional> SelectAll(){
+    public List<Profissional> SelectAll() {
         return profissionalRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     public Profissional selectById(int id){
-        return profissionalRepository.findById(id);
+        return profissionalRepository.findById(id).orElseThrow(
+            () -> new RuntimeException("Profissional não encontrado")
+        );
     }
 
     @Transactional
-    public Profissional save(Profissional profissional){
+    public Profissional save(Profissional profissional) {
         return profissionalRepository.save(profissional);
     }
 
     @Transactional
-    public void deleteById(int id){
+    public void deleteById(int id) {
         profissionalRepository.deleteById(id);
     }
 }
