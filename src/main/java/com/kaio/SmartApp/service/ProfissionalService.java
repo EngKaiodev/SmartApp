@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-
 public class ProfissionalService {
+
     private final ProfissionalRepository profissionalRepository;
 
     @Transactional(readOnly = true)
@@ -21,4 +21,18 @@ public class ProfissionalService {
         return profissionalRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Profissional selectById(int id){
+        return profissionalRepository.findById(id);
+    }
+
+    @Transactional
+    public Profissional save(Profissional profissional){
+        return profissionalRepository.save(profissional);
+    }
+
+    @Transactional
+    public void deleteById(int id){
+        profissionalRepository.deleteById(id);
+    }
 }
