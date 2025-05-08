@@ -21,4 +21,20 @@ public class NotificacaoService {
         return  notificacaoRepository.findAll();
     }
 
+    @Transactional
+    public Notificacao selectById(int id){
+        return notificacaoRepository.findById(id).orElseThrow(
+            () -> new RuntimeException("sem notificações")
+        );
+    }
+    
+    @Transactional
+    public Notificacao save(Notificacao notificacao){
+        return notificacaoRepository.save(notificacao);
+    }
+
+    @Transactional
+    public void deleteById(int id){
+        notificacaoRepository.deleteById(id);
+    }
 }

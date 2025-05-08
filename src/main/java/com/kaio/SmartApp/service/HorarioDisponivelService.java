@@ -21,5 +21,23 @@ public class HorarioDisponivelService {
         return horarioDisponivelRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public HorarioDisponivel selectById(int id){
+        return horarioDisponivelRepository.findById(id).orElseThrow(
+            () -> new RuntimeException("não ha horarios disponiveis")
+        );
+    }
+    
+    @Transactional
+    public HorarioDisponivel save(HorarioDisponivel horarioDisponivel){
+        return horarioDisponivelRepository.save(horarioDisponivel);
+    }
+
+    @Transactional
+    public void deleteById(int id){
+        horarioDisponivelRepository.deleteById(id);
+    }
+
+
 
 }

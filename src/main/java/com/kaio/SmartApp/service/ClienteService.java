@@ -20,4 +20,25 @@ public class ClienteService {
     public List<Cliente> SelectAll(){
         return clienteRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    public Cliente selectById(int id){
+        return clienteRepository.findById(id).orElseThrow(
+            () -> new RuntimeException("Cliente nao encontrado")
+        );
+
+    }
+
+    @Transactional
+    public Cliente save(Cliente cliente){
+        return clienteRepository.save(cliente);
+    }
+
+    @Transactional
+    public void deleteById(int id){
+        clienteRepository.deleteById(id);
+    }
+
+    
+
 }

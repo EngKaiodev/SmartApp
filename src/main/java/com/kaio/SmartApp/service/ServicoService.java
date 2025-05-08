@@ -21,4 +21,21 @@ public class ServicoService {
         return servicoRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Servico selectById(int id){
+        return servicoRepository.findById(id).orElseThrow(
+            () -> new RuntimeException("seviço nao localizado")
+        );
+    }
+
+    @Transactional
+    public Servico save(Servico servico){
+        return servicoRepository.save(servico);
+    }
+
+    @Transactional
+    public void deleteById(int id){
+        servicoRepository.deleteById(id);
+    }
+
 }

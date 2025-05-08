@@ -21,5 +21,20 @@ public class AgendamentoService {
         return agendamentoRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Agendamento selectById(int id){
+       return agendamentoRepository.findById(id).orElseThrow(
+        () -> new RuntimeException("Agendamento não encontrado")
+       );
+    }
 
+    @Transactional
+    public Agendamento save(Agendamento agendamento){
+        return agendamentoRepository.save(agendamento);
+    }
+
+    @Transactional
+    public void deleteById(int id){
+       agendamentoRepository.deleteById(id);
+    }
 }
