@@ -29,7 +29,7 @@ public class ServicoController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Servico> getById(@PathVariable int id){
         Servico response = servicoService.selectById(id);
         return ResponseEntity.ok().body(response);
@@ -41,7 +41,7 @@ public class ServicoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id){
         servicoService.deleteById(id);
         return ResponseEntity.noContent().build();

@@ -21,7 +21,7 @@ public class ProfissionalService {
         return profissionalRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
+    
     public Profissional selectById(int id){
         return profissionalRepository.findById(id).orElseThrow(
             () -> new RuntimeException("Profissional não encontrado")

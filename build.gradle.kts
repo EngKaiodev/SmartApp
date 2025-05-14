@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.compile.JavaCompile
+
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.4.4"
@@ -31,10 +34,26 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	// https://mvnrepository.com/artifact/jakarta.annotation/jakarta.annotation-api
 	implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
+}
+tasks.named<JavaCompile>("compileJava") {
+    options.compilerArgs.apply {
+        // limpa flags antigas, se quiser garantir
+        clear()
+        add("-parameters")
+    }
+}
+tasks.named<JavaCompile>("compileTestJava") {
+    options.compilerArgs.apply {
+        clear()
+        add("-parameters")
+    }
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+
+
+

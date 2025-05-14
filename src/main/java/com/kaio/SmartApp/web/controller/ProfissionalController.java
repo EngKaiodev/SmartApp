@@ -23,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 public class ProfissionalController {
 
     private final ProfissionalService profissionalService;
+    //todo checar se todos os parametros estão entre chaves "{}"
+    //todo Passar na frente de todos os PathVariable o parametro -> @PathVariable("id")
 
     @GetMapping()
     public ResponseEntity<List<Profissional>> getAll() {
@@ -31,7 +33,7 @@ public class ProfissionalController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Profissional> getById(@PathVariable int id){
+    public ResponseEntity<Profissional> getById(@PathVariable("id") int id){
         Profissional response = profissionalService.selectById(id);
         return ResponseEntity.ok().body(response);
     }
@@ -43,7 +45,7 @@ public class ProfissionalController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") int id) {
         profissionalService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

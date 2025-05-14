@@ -16,7 +16,6 @@ import lombok.Setter;
 @Table(name="Servicos")
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-
 public class Servico implements Serializable{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
