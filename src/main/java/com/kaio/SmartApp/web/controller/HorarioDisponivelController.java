@@ -34,7 +34,7 @@ public class HorarioDisponivelController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HorarioDisponivel> getById(@PathVariable int id) {
+    public ResponseEntity<HorarioDisponivel> getById(@PathVariable("id") int id) {
         HorarioDisponivel response = horarioDisponivelService.selectById(id);
         return ResponseEntity.ok().body(response);
     }
@@ -46,7 +46,7 @@ public class HorarioDisponivelController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id){
+    public ResponseEntity<Void> delete(@PathVariable("id") int id){
         horarioDisponivelService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

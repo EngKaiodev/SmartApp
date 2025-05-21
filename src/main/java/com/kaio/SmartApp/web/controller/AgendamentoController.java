@@ -30,7 +30,7 @@ public class AgendamentoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Agendamento> getById(@PathVariable int id){
+    public ResponseEntity<Agendamento> getById(@PathVariable("id") int id){
         Agendamento response = agendamentoService.selectById(id);
         return ResponseEntity.ok().body(response);
     }
@@ -41,7 +41,7 @@ public class AgendamentoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id){
+    public ResponseEntity<Void> delete(@PathVariable("id") int id){
         agendamentoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

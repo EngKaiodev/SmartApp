@@ -30,7 +30,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> getById(@PathVariable int id){
+    public ResponseEntity<Cliente> getById(@PathVariable("id") int id){
         Cliente response = clienteService.selectById(id);
         return ResponseEntity.ok().body(response); 
     }
@@ -42,7 +42,7 @@ public class ClienteController {
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id){
+    public ResponseEntity<Void> delete(@PathVariable("id") int id){
         clienteService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
