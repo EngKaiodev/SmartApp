@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kaio.SmartApp.DTO.cliente.ClienteGetResponse;
 import com.kaio.SmartApp.entity.Cliente;
 import com.kaio.SmartApp.repository.ClienteRepository;
 
@@ -14,18 +15,29 @@ import lombok.RequiredArgsConstructor;
 @Service
 
 public class ClienteService {
+
     private final ClienteRepository clienteRepository;
 
     @Transactional(readOnly = true)
-    public List<Cliente> SelectAll(){
-        return clienteRepository.findAll();
+    public List<ClienteGetResponse> SelectAll(){
+
+        List<Cliente> clientes = clienteRepository.findAll();
+
+        List<ClienteGetResponse> clientesDTO = clientes.stream()
+        .map(Cliente::toGetResponse)
+        .toList();
+
+        return clientesDTO;
     }
 
     @Transactional(readOnly = true)
-    public Cliente selectById(int id){
-        return clienteRepository.findById(id).orElseThrow(
+    public ClienteGetResponse selectById(int id){
+
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(
             () -> new RuntimeException("Cliente nao encontrado")
         );
+
+        return cliente.toGetResponse();
 
     }
 

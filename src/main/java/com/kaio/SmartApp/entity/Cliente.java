@@ -1,6 +1,8 @@
 package com.kaio.SmartApp.entity;
 import java.io.Serializable;
 
+import com.kaio.SmartApp.DTO.cliente.ClienteGetResponse;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +34,16 @@ public class Cliente implements Serializable{
     private String cpf_cnpj;
     @Column(nullable=false, unique=false, length=50) 
     private String endereco;
+
+    public ClienteGetResponse toGetResponse(){
+        return new ClienteGetResponse(
+            id_cliente,
+            nome,
+            email,
+            telefone,
+            endereco
+        );
+    }
 
 }
 
