@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.kaio.SmartApp.DTO.servico.ServicoDTO;
 import com.kaio.SmartApp.entity.Servico;
 import com.kaio.SmartApp.service.ServicoService;
 
@@ -36,7 +37,7 @@ public class ServicoController {
     }
 
     @PostMapping()
-    public ResponseEntity<Servico> insert(@RequestBody Servico servico){
+    public ResponseEntity<Servico> insert(@RequestBody ServicoDTO servico){
         Servico response = servicoService.save(servico);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
