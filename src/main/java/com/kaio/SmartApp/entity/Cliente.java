@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.kaio.SmartApp.DTO.cliente.ClienteGetResponse;
+import com.kaio.SmartApp.DTO.cliente.response.ClienteGetResponse;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

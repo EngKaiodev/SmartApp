@@ -1,4 +1,4 @@
-package com.kaio.SmartApp.DTO.cliente;
+package com.kaio.SmartApp.DTO.cliente.response;
 
 import java.io.Serializable;
 

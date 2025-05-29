@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -41,7 +42,21 @@ public class Profissional implements Serializable{
     private String especialidades;
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.REMOVE, orphanRemoval = false)
-    @JsonBackReference
+    @JsonBackReference("profissional-servicos")
     private List<Servico> servicos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "profissional", cascade = CascadeType.REMOVE, orphanRemoval = false)
+    @JsonBackReference("profissional-horarios")
+    private List<HorarioDisponivel> horarioDisponiveis = new ArrayList<>();
+
+    public ProfissionalGetResponseDTO toGetDTO(){
+        return new ProfissionalGetResponseDTO(
+            getId_profissional(),
+            getRazao_social(),
+            getContato(),
+            getEmail(),
+            getEspecialidades()
+        );
+    }
     
 }

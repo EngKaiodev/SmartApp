@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.kaio.SmartApp.DTO.agendamento.request.AgendamentoRequestDTO;
+import com.kaio.SmartApp.DTO.agendamento.response.AgendamentoGetResponse;
 import com.kaio.SmartApp.entity.Agendamento;
 import com.kaio.SmartApp.service.AgendamentoService;
 
@@ -36,8 +38,8 @@ public class AgendamentoController {
     }
 
     @PostMapping()
-    public ResponseEntity<Agendamento> insert(@RequestBody Agendamento agendamento){
-        Agendamento response = agendamentoService.save(agendamento);
+    public ResponseEntity<AgendamentoGetResponse> insert(@RequestBody AgendamentoRequestDTO agendamento){
+        AgendamentoGetResponse response = agendamentoService.save(agendamento);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     @DeleteMapping("/{id}")

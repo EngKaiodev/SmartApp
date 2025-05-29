@@ -1,4 +1,4 @@
-package com.kaio.SmartApp.DTO.servico;
+package com.kaio.SmartApp.DTO.servico.request;
 
 import com.kaio.SmartApp.entity.Profissional;
 import com.kaio.SmartApp.entity.Servico;
@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServicoDTO {
-    private Integer id_servico;
+public class ServicoRequestDTO {
     private Integer id_profissional;
-    private String nome_servico;
+    private String nome;
     private String descricao;
     private float preco;
     private int duracao;
@@ -21,7 +20,7 @@ public class ServicoDTO {
     public Servico toEntity(Profissional profissional){
         return new Servico(
             profissional,
-            getNome_servico(),
+            getNome(),
             getDescricao(),
             getPreco(),
             getDuracao()

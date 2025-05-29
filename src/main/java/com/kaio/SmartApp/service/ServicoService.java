@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kaio.SmartApp.DTO.servico.ServicoDTO;
+import com.kaio.SmartApp.DTO.servico.request.ServicoRequestDTO;
+import com.kaio.SmartApp.DTO.servico.response.ServicoGetRespondeDTO;
 import com.kaio.SmartApp.entity.Profissional;
 import com.kaio.SmartApp.entity.Servico;
-import com.kaio.SmartApp.repository.ProfissionalRepository;
 import com.kaio.SmartApp.repository.ServicoRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,17 +26,22 @@ public class ServicoService {
     }
 
     @Transactional(readOnly = true)
-    public Servico selectById(int id){
+    public ServicoGetRespondeDTO selectByID(int id){
+        return selectEntityById(id).toGetDTO();
+    }
+
+    @Transactional(readOnly = true)
+    public Servico selectEntityById(int id){
         return servicoRepository.findById(id).orElseThrow(
             () -> new RuntimeException("seviço nao localizado")
         );
     }
 
     @Transactional
-    public Servico save(ServicoDTO servico){
-        Profissional profissional = profissionalService.selectById(servico.getId_profissional());
-        Servico servicoResponse = servico.toEntity(profissional);
-        return servicoRepository.save(servicoResponse);
+    public ServicoGetRespondeDTO save(ServicoRequestDTO servico){
+        Profissional profissional = profissionalService.selectEntityById(servico.getId_profissional());
+        Servico servicoSaved = servicoRepository.save(servico.toEntity(profissional));
+        return servicoSaved.toGetDTO();
     }
 
     @Transactional

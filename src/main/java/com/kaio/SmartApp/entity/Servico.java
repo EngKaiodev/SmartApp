@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.kaio.SmartApp.DTO.servico.response.ServicoGetRespondeDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -32,7 +33,7 @@ public class Servico implements Serializable{
     @JoinColumn(name = "id_profissional", nullable = false)
     private Profissional profissional;
     @Column(nullable=false, unique=false, length=50) 
-    private String nome_servico;
+    private String nome;
     @Column(nullable=false, unique=false, length=50) 
     private String descricao;
     @Column(nullable=false, unique=false, length=50) 
@@ -46,12 +47,21 @@ public class Servico implements Serializable{
     
     public Servico(Profissional profissional, String nome_servico, String descricao, float preco, int duracao) {
         this.profissional = profissional;
-        this.nome_servico = nome_servico;
+        this.nome = nome_servico;
         this.descricao = descricao;
         this.preco = preco;
         this.duracao = duracao;
     }
 
 
-    
+    public ServicoGetRespondeDTO toGetDTO(){
+        return new ServicoGetRespondeDTO(
+            getId_servico(),
+            getProfissional().toGetDTO(),
+            getNome(),
+            getDescricao(),
+            getPreco(),
+            getDuracao()
+        );
+    }
 }

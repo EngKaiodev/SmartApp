@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.kaio.SmartApp.DTO.cliente.ClienteGetResponse;
+import com.kaio.SmartApp.DTO.cliente.response.ClienteGetResponse;
 import com.kaio.SmartApp.entity.Cliente;
-import com.kaio.SmartApp.repository.ClienteRepository;
 import com.kaio.SmartApp.service.ClienteService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class ClienteController {
 
     @GetMapping
     public ResponseEntity<List<ClienteGetResponse>> getAll(){
-        List<ClienteGetResponse> response= clienteService.SelectAll();
+        List<ClienteGetResponse> response = clienteService.SelectAll();
         return ResponseEntity.ok().body(response);
     }
 
@@ -39,9 +38,9 @@ public class ClienteController {
     }
 
     @PostMapping()
-    public ResponseEntity<Cliente> insert(@RequestBody Cliente cliente){
+    public ResponseEntity<ClienteGetResponse> insert(@RequestBody Cliente cliente){
         Cliente response = clienteService.save(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response.toGetResponse());
     }
     
     @DeleteMapping("/{id}")
