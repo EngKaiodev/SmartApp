@@ -1,7 +1,12 @@
 package com.kaio.SmartApp.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +39,10 @@ public class Servico implements Serializable{
     private float preco;
     @Column(nullable=false, unique=false, length=50) 
     private int duracao;
+
+    @OneToMany(mappedBy = "servico", cascade = CascadeType.REMOVE, orphanRemoval = false)
+    @JsonBackReference
+    private List<Agendamento> agendamentos = new ArrayList<>();
     
     public Servico(Profissional profissional, String nome_servico, String descricao, float preco, int duracao) {
         this.profissional = profissional;
