@@ -1,6 +1,9 @@
 package com.kaio.SmartApp.DTO.cliente.response;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.kaio.SmartApp.entity.Endereco;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +19,5 @@ public class ClienteGetResponse implements Serializable {
     private String nome;
     private String email;
     private String telefone;
-    private String endereco;
+    private List<Endereco> enderecos;
 }
