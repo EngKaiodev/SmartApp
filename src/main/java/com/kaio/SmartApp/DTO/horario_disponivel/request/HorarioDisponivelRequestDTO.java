@@ -2,6 +2,11 @@ package com.kaio.SmartApp.DTO.horario_disponivel.request;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+
+import com.kaio.SmartApp.entity.HorarioDisponivel;
+import com.kaio.SmartApp.entity.Profissional;
+import com.kaio.SmartApp.entity.HorarioDisponivel.Status;
+
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -18,4 +23,14 @@ public class HorarioDisponivelRequestDTO {
     private LocalTime hora_fim;
     @Enumerated(EnumType.STRING)
     private String status;
+
+    public HorarioDisponivel toEntity(Profissional profissional){
+        return new HorarioDisponivel(
+            profissional,
+            getData(),
+            getHora_inicio(),
+            getHora_fim(),
+            Status.valueOf(getStatus())
+        );
+    }
 }

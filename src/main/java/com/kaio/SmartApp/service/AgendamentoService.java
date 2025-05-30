@@ -9,6 +9,7 @@ import com.kaio.SmartApp.DTO.agendamento.request.AgendamentoRequestDTO;
 import com.kaio.SmartApp.DTO.agendamento.response.AgendamentoGetResponse;
 import com.kaio.SmartApp.entity.Agendamento;
 import com.kaio.SmartApp.entity.Cliente;
+import com.kaio.SmartApp.entity.HorarioDisponivel;
 import com.kaio.SmartApp.entity.Servico;
 import com.kaio.SmartApp.repository.AgendamentoRepository;
 
@@ -21,6 +22,7 @@ public class AgendamentoService {
     private final AgendamentoRepository agendamentoRepository;
     private final ClienteService clienteService;
     private final ServicoService servicoService;
+    private final HorarioDisponivelService horarioDisponivelService;
 
     @Transactional(readOnly = true)
     public List<Agendamento> SelectAll() {
@@ -37,7 +39,8 @@ public class AgendamentoService {
     public AgendamentoGetResponse save(AgendamentoRequestDTO agendamento) {
         Cliente cliente = clienteService.selectEntityById(agendamento.getCliente_id());
         Servico servico = servicoService.selectEntityById(agendamento.getServico_id());
-        Agendamento response = agendamentoRepository.save(agendamento.toEntity(cliente, servico));
+        HorarioDisponivel horario = horarioDisponivelService.selectEntityByID(agendamento.getHorario_id());
+        Agendamento response = agendamentoRepository.save(agendamento.toEntity(cliente, servico, horario));
         return response.toGetResponse();
     }
 

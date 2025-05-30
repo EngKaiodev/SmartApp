@@ -37,8 +37,9 @@ public class Agendamento implements Serializable {
   @ManyToOne
   @JoinColumn(name = "id_servico", nullable = false)
   private Servico servico;
-  @Column(nullable = false, unique = false, length = 50)
-  private LocalDateTime data_hora;
+  @ManyToOne
+  @JoinColumn(name = "id_horario", nullable = false)
+  private HorarioDisponivel horarioDisponivel;
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, unique = true, length = 50)
   private StatusAgendamento status;
@@ -53,11 +54,11 @@ public class Agendamento implements Serializable {
     PENDENTE, CONFIRMADO, CANCELADO, REAGENDADO
   }
 
-  public Agendamento(Cliente cliente, Servico servico, LocalDateTime data_hora, StatusAgendamento status, int nota,
+  public Agendamento(Cliente cliente, Servico servico, HorarioDisponivel horarioDisponivel, StatusAgendamento status, int nota,
       String comentario, LocalDateTime data_hora_criacao) {
     this.cliente = cliente;
     this.servico = servico;
-    this.data_hora = data_hora;
+    this.horarioDisponivel = horarioDisponivel;
     this.status = status;
     this.nota = nota;
     this.comentario = comentario;
@@ -69,7 +70,7 @@ public class Agendamento implements Serializable {
       getId_agendamento(),
       getCliente().toGetResponse(),
       getServico().toGetDTO(),
-      getData_hora(),
+      getHorarioDisponivel().toGetDTO(),
       getStatus().toString(),
       getNota(),
       getComentario(),

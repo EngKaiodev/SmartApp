@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.kaio.SmartApp.entity.Agendamento;
 import com.kaio.SmartApp.entity.Cliente;
+import com.kaio.SmartApp.entity.HorarioDisponivel;
 import com.kaio.SmartApp.entity.Servico;
 import com.kaio.SmartApp.entity.Agendamento.StatusAgendamento;
 
@@ -17,17 +18,17 @@ import lombok.NoArgsConstructor;
 public class AgendamentoRequestDTO {
     private int cliente_id;
     private int servico_id;
-    private LocalDateTime data_hora;
+    private int horario_id;
     private String status;
     private int nota;
     private String comentario;
     private LocalDateTime data_hora_criacao;
 
-    public Agendamento toEntity(Cliente cliente, Servico servico){
+    public Agendamento toEntity(Cliente cliente, Servico servico, HorarioDisponivel  horario){
         return new Agendamento(
             cliente,
             servico,
-            getData_hora(),
+            horario,
             StatusAgendamento.valueOf(getStatus()),
             getNota(),
             getComentario(),
