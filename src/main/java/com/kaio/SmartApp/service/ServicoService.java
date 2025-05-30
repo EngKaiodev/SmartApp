@@ -11,6 +11,7 @@ import com.kaio.SmartApp.entity.Profissional;
 import com.kaio.SmartApp.entity.Servico;
 import com.kaio.SmartApp.repository.ServicoRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -33,8 +34,7 @@ public class ServicoService {
     @Transactional(readOnly = true)
     public Servico selectEntityById(int id){
         return servicoRepository.findById(id).orElseThrow(
-            () -> new RuntimeException("seviço nao localizado")
-        );
+            () -> new EntityNotFoundException("Serviço com id " + id + " não encontrado"));
     }
 
     @Transactional

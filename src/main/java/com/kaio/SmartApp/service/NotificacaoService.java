@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kaio.SmartApp.entity.Notificacao;
 import com.kaio.SmartApp.repository.NotificacaoRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -24,8 +25,7 @@ public class NotificacaoService {
     @Transactional
     public Notificacao selectById(int id){
         return notificacaoRepository.findById(id).orElseThrow(
-            () -> new RuntimeException("sem notificações")
-        );
+            () -> new EntityNotFoundException("Notificação com id " + id + " não encontrado"));
     }
     
     @Transactional

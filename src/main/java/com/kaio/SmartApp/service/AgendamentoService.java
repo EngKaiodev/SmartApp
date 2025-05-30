@@ -13,6 +13,7 @@ import com.kaio.SmartApp.entity.HorarioDisponivel;
 import com.kaio.SmartApp.entity.Servico;
 import com.kaio.SmartApp.repository.AgendamentoRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class AgendamentoService {
     @Transactional(readOnly = true)
     public Agendamento selectById(int id) {
         return agendamentoRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Agendamento não encontrado"));
+                () -> new EntityNotFoundException("Agendamento com id " + id + " não encontrado"));
     }
 
     @Transactional

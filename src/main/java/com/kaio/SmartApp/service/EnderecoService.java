@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kaio.SmartApp.entity.Endereco;
 import com.kaio.SmartApp.repository.EnderecoRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -23,8 +24,7 @@ public class EnderecoService {
     @Transactional(readOnly = true)
     public Endereco selectById(int id){
         return enderecoRepository.findById(id).orElseThrow(
-            () -> new RuntimeException("Endereço não encontrado")
-        );
+            () -> new EntityNotFoundException("Endereço com id " + id + " não encontrado"));
     }
 
     @Transactional(readOnly = true)

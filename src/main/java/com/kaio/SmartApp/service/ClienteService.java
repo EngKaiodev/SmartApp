@@ -9,6 +9,7 @@ import com.kaio.SmartApp.DTO.cliente.response.ClienteGetResponse;
 import com.kaio.SmartApp.entity.Cliente;
 import com.kaio.SmartApp.repository.ClienteRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -38,7 +39,7 @@ public class ClienteService {
     @Transactional(readOnly = true)
     public Cliente selectEntityById(int id) {
         return clienteRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Cliente nao encontrado"));
+                () -> new EntityNotFoundException("Cliente com id " + id + " não encontrado"));
     }
 
     @Transactional

@@ -9,6 +9,7 @@ import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 import com.kaio.SmartApp.entity.Profissional;
 import com.kaio.SmartApp.repository.ProfissionalRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -22,21 +23,19 @@ public class ProfissionalService {
         List<Profissional> profissionais = profissionalRepository.findAll();
 
         List<ProfissionalGetResponseDTO> responseDTOs = profissionais.stream()
-        .map(Profissional::toGetDTO)
-        .toList();
+                .map(Profissional::toGetDTO)
+                .toList();
 
         return responseDTOs;
     }
 
-    
-    public ProfissionalGetResponseDTO selectById(int id){
+    public ProfissionalGetResponseDTO selectById(int id) {
         return selectEntityById(id).toGetDTO();
     }
 
-    public Profissional selectEntityById(int id){
+    public Profissional selectEntityById(int id) {
         return profissionalRepository.findById(id).orElseThrow(
-            () -> new RuntimeException("Profissional não encontrado")
-        );
+                () -> new EntityNotFoundException("Profissional com id " + id + " não encontrado"));
     }
 
     @Transactional

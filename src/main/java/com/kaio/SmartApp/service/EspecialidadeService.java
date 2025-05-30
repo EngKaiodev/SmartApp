@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kaio.SmartApp.entity.Especialidade;
 import com.kaio.SmartApp.repository.EspecialdiadesRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class EspecialidadeService {
     @Transactional(readOnly = true)
     public Especialidade selectById(int id) {
         return especialdiadesRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Especialidade não encontrada"));
+                () -> new EntityNotFoundException("Especialidade com id " + id + " não encontrado"));
     }
 
     @Transactional(readOnly = true)

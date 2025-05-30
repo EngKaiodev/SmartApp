@@ -11,6 +11,7 @@ import com.kaio.SmartApp.entity.HorarioDisponivel;
 import com.kaio.SmartApp.entity.Profissional;
 import com.kaio.SmartApp.repository.HorarioDisponivelRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class HorarioDisponivelService {
     @Transactional(readOnly = true)
     public HorarioDisponivel selectEntityByID(int id) {
         return horarioDisponivelRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("não ha horarios disponiveis"));
+                () -> new EntityNotFoundException("Horário com id " + id + " não encontrado"));
     }
 
     @Transactional
