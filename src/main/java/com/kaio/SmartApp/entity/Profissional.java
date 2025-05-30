@@ -13,6 +13,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -38,8 +41,11 @@ public class Profissional implements Serializable{
     private String senha;
     @Column(nullable=false, unique=true, length=100) 
     private String cnpj;
-    @Column(nullable=false, unique=true, length=100) 
-    private String especialidades;
+    @ManyToMany
+    @JoinTable(name = "profissional_especialidade",
+    joinColumns = {@JoinColumn(name = "profissional_id")},
+    inverseJoinColumns = {@JoinColumn(name = "especialidade_id")})
+    private List<Especialidade> especialidades = new ArrayList<>();
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.REMOVE, orphanRemoval = false)
     @JsonBackReference("profissional-servicos")
@@ -58,5 +64,4 @@ public class Profissional implements Serializable{
             getEspecialidades()
         );
     }
-    
 }

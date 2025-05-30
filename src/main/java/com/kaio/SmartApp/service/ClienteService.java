@@ -42,8 +42,8 @@ public class ClienteService {
     }
 
     @Transactional
-    public Cliente save(Cliente cliente) {
-        return clienteRepository.save(cliente);
+    public ClienteGetResponse save(Cliente cliente) {
+        return clienteRepository.save(cliente).toGetResponse();
     }
 
     @Transactional

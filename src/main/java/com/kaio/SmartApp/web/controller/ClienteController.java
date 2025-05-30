@@ -39,8 +39,8 @@ public class ClienteController {
 
     @PostMapping()
     public ResponseEntity<ClienteGetResponse> insert(@RequestBody Cliente cliente){
-        Cliente response = clienteService.save(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response.toGetResponse());
+        ClienteGetResponse response = clienteService.save(cliente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
     @DeleteMapping("/{id}")
