@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kaio.SmartApp.entity.Especialidade;
+import com.kaio.SmartApp.entity.Servicos;
 import com.kaio.SmartApp.service.EspecialidadeService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,20 +24,20 @@ public class EspecialidadeController {
     private final EspecialidadeService especialidadeService;
 
     @PostMapping
-    public ResponseEntity<Especialidade> insert(@RequestBody Especialidade especialidade) {
-        Especialidade response = especialidadeService.save(especialidade);
+    public ResponseEntity<Servicos> insert(@RequestBody Servicos especialidade) {
+        Servicos response = especialidadeService.save(especialidade);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<Especialidade>> getAll(){
-        List<Especialidade> response = especialidadeService.selectAll();
+    public ResponseEntity<List<Servicos>> getAll(){
+        List<Servicos> response = especialidadeService.selectAll();
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Especialidade> getById(@PathVariable("id") int id){
-        Especialidade response = especialidadeService.selectById(id);
+    public ResponseEntity<Servicos> getById(@PathVariable("id") int id){
+        Servicos response = especialidadeService.selectById(id);
         return ResponseEntity.ok().body(response);
     }
 

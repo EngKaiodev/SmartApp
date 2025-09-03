@@ -18,22 +18,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "Especialidades")
+@Table(name = "Servicos")
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Especialidade implements Serializable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(nullable = false, unique = true, length = 50)
-    private String name;
+public class Servicos implements Serializable{
 
-    @ManyToMany(mappedBy = "especialidades")
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private int id;
+    @Column(nullable=false, unique=false, length=50) 
+    private String name;
+    @Column(nullable=false, unique=false, length=50) 
+    private String description;
+    @Column(nullable=false, unique=false, length=50) 
+    private float price;
+    @Column(nullable=false, unique=false, length=50) 
+    private int duration;
+
+    @ManyToMany(mappedBy = "servicos")
     @JsonBackReference
     private List<Profissional> profissionais = new ArrayList<>();
 
-
-    public Especialidade(String name) {
+    public Servicos(String name, String description, float price, int duration, List<Profissional> profissionais) {
         this.name = name;
+        this.description = description;
+        this.price = price;
+        this.duration = duration;
+        this.profissionais = profissionais;
     }
 }

@@ -2,7 +2,7 @@ package com.kaio.SmartApp.DTO.profissional.response;
 
 import java.util.List;
 
-import com.kaio.SmartApp.entity.Especialidade;
+import com.kaio.SmartApp.entity.Servicos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +16,5 @@ public class ProfissionalGetResponseDTO {
     private String razao_social;
     private String contato;
     private String email;
-    private List<Especialidade> especialidades;
+    private List<Servicos> especialidades;
 }

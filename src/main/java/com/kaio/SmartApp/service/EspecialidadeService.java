@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kaio.SmartApp.entity.Especialidade;
+import com.kaio.SmartApp.entity.Servicos;
 import com.kaio.SmartApp.repository.EspecialdiadesRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -17,18 +17,18 @@ public class EspecialidadeService {
     private final EspecialdiadesRepository especialdiadesRepository;
 
     @Transactional
-    public Especialidade save(Especialidade especialidade) {
+    public Servicos save(Servicos especialidade) {
         return especialdiadesRepository.save(especialidade);
     }
 
     @Transactional(readOnly = true)
-    public Especialidade selectById(int id) {
+    public Servicos selectById(int id) {
         return especialdiadesRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Especialidade com id " + id + " não encontrado"));
     }
 
     @Transactional(readOnly = true)
-    public List<Especialidade> selectAll(){
+    public List<Servicos> selectAll(){
         return especialdiadesRepository.findAll();
     }
 

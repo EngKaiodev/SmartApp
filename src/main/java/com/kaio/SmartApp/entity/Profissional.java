@@ -41,15 +41,12 @@ public class Profissional implements Serializable{
     private String senha;
     @Column(nullable=false, unique=true, length=100) 
     private String cnpj;
+
     @ManyToMany
     @JoinTable(name = "profissional_especialidade",
     joinColumns = {@JoinColumn(name = "profissional_id")},
-    inverseJoinColumns = {@JoinColumn(name = "especialidade_id")})
-    private List<Especialidade> especialidades = new ArrayList<>();
-
-    @OneToMany(mappedBy = "profissional", cascade = CascadeType.REMOVE, orphanRemoval = false)
-    @JsonBackReference("profissional-servicos")
-    private List<Servico> servicos = new ArrayList<>();
+    inverseJoinColumns = {@JoinColumn(name = "servicos_id")})
+    private List<Servicos> servicos = new ArrayList<>();
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.REMOVE, orphanRemoval = false)
     @JsonBackReference("profissional-horarios")
@@ -61,7 +58,7 @@ public class Profissional implements Serializable{
             getRazao_social(),
             getContato(),
             getEmail(),
-            getEspecialidades()
+            getServicos()
         );
     }
 }
