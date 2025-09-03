@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.kaio.SmartApp.DTO.servico.request.ServicoRequestDTO;
+import com.kaio.SmartApp.DTO.servico.response.ServicoGetRespondeDTO;
 import com.kaio.SmartApp.entity.Servico;
 import com.kaio.SmartApp.service.ServicoService;
 
@@ -30,19 +32,19 @@ public class ServicoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Servico> getById(@PathVariable int id){
-        Servico response = servicoService.selectById(id);
+    public ResponseEntity<ServicoGetRespondeDTO> getById(@PathVariable("id") int id){
+        ServicoGetRespondeDTO response = servicoService.selectByID(id);
         return ResponseEntity.ok().body(response);
     }
 
     @PostMapping()
-    public ResponseEntity<Servico> insert(@RequestBody Servico servico){
-        Servico response = servicoService.save(servico);
+    public ResponseEntity<ServicoGetRespondeDTO> insert(@RequestBody ServicoRequestDTO servico){
+        ServicoGetRespondeDTO response = servicoService.save(servico);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id){
+    public ResponseEntity<Void> delete(@PathVariable("id") int id){
         servicoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

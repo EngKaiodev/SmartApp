@@ -1,11 +1,21 @@
 package com.kaio.SmartApp.entity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.kaio.SmartApp.DTO.cliente.response.ClienteGetResponse;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,8 +40,25 @@ public class Cliente implements Serializable{
     private String senha; 
     @Column(nullable=false, unique=true, length=50) 
     private String cpf_cnpj;
-    @Column(nullable=false, unique=false, length=50) 
-    private String endereco;
+    @ManyToMany
+    @JoinTable(name = "cliente_endereco",
+    joinColumns = {@JoinColumn(name = "cliente_id")},
+    inverseJoinColumns = {@JoinColumn(name = "endereco_id")})
+    private List<Endereco> enderecos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE, orphanRemoval = false)
+    @JsonBackReference
+    private List<Agendamento> Agendamentos = new ArrayList<>();
+
+    public ClienteGetResponse toGetResponse(){
+        return new ClienteGetResponse(
+            id_cliente,
+            nome,
+            email,
+            telefone,
+            enderecos
+        );
+    }
 
 }
 
