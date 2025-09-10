@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.kaio.SmartApp.DTO.AcessDTO;
-import com.kaio.SmartApp.DTO.UserRequestDTO;
+import com.kaio.SmartApp.DTO.user.request.UserRequestDTO;
 import com.kaio.SmartApp.security.jwl.JwtUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class AuthService {
     public AcessDTO login(UserRequestDTO request) {
         try {
             UsernamePasswordAuthenticationToken authInput = new UsernamePasswordAuthenticationToken(
-                    request.getUsername(), request.getPassword());
+                    request.getEmail(), request.getPassword());
 
             Authentication auth = authenticationManager.authenticate(authInput);
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kaio.SmartApp.DTO.AcessDTO;
-import com.kaio.SmartApp.DTO.UserRequestDTO;
+import com.kaio.SmartApp.DTO.user.request.UserRequestDTO;
 import com.kaio.SmartApp.service.AuthService;
 import com.kaio.SmartApp.service.UserService;
 

@@ -40,6 +40,7 @@ public class Cliente implements Serializable{
     private String senha; 
     @Column(nullable=false, unique=true, length=50) 
     private String cpf_cnpj;
+    
     @ManyToMany
     @JoinTable(name = "cliente_endereco",
     joinColumns = {@JoinColumn(name = "cliente_id")},

@@ -6,10 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kaio.SmartApp.DTO.UserMapper;
-import com.kaio.SmartApp.DTO.UserModel;
-import com.kaio.SmartApp.DTO.UserRequestDTO;
-import com.kaio.SmartApp.DTO.UserResponseDTO;
+import com.kaio.SmartApp.DTO.cliente.ClienteMapper;
+import com.kaio.SmartApp.DTO.profissional.ProfissionalMapper;
+import com.kaio.SmartApp.DTO.user.UserMapper;
+import com.kaio.SmartApp.DTO.user.request.UserRequestDTO;
+import com.kaio.SmartApp.DTO.user.response.UserResponseDTO;
+import com.kaio.SmartApp.entity.UserModel;
 import com.kaio.SmartApp.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -20,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ProfissionalService profissionalService;
+    private final ClienteService clienteService;
 
     @Transactional(readOnly = true)
     public UserModel selectEntityById(int id){
@@ -42,13 +46,25 @@ public class UserService {
 
     @Transactional
     public UserResponseDTO save(UserRequestDTO request){
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        switch (request.getType()) {
+            case 1:
+                profissionalService.save(ProfissionalMapper.userToProfissional(request));
+                break;
+            case 2:
+                clienteService.save(ClienteMapper.userToCliente(request));
+        
+            default:
+                break;
+        }
+
         UserModel response = saveEntity(UserMapper.toEntity(request));
         return UserMapper.toResponse(response);
     }
 
     @Transactional
     public UserModel saveEntity(UserModel model){
-        model.setPassword(passwordEncoder.encode(model.getPassword()));
         return userRepository.save(model);
     }
 

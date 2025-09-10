@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.kaio.SmartApp.DTO.UserModel;
+import com.kaio.SmartApp.entity.UserModel;
 
 
 public interface UserRepository extends JpaRepository<UserModel, Integer> {

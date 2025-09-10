@@ -1,4 +1,4 @@
-package com.kaio.SmartApp.DTO;
+package com.kaio.SmartApp.DTO.user.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,5 +8,7 @@ import lombok.Setter;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class UserResponseDTO {
     private int id;
-    private String username;
+    private String complete_name;
+    private String phone;
+    private String email;
 }

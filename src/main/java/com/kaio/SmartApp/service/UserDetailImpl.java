@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.kaio.SmartApp.DTO.UserModel;
+import com.kaio.SmartApp.entity.UserModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

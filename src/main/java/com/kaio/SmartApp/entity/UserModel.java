@@ -1,14 +1,10 @@
-package com.kaio.SmartApp.DTO;
-
-import java.time.LocalDateTime;
+package com.kaio.SmartApp.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,24 +19,21 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
+    @Column(nullable = false, unique = false)
+    private String complete_name;
 
     @Column(nullable = false)
     private String password;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    @Column(nullable = false, unique = true)
+    private String phone;
 
-    @PrePersist
-    public void prePersist() {
-        LocalDateTime now = LocalDateTime.now();
-        this.createdAt = now;
-        this.modifiedAt = now;
-    }
+    @Column(nullable = false, unique = true)
+    private String email;
 
-    @PreUpdate
-    public void preUpdate() {
-        this.modifiedAt = LocalDateTime.now();
-    }
+    @Column(nullable = false, unique = true)
+    private String document;
+
+    @Column(nullable = false, unique = false)
+    private int type; //0 -> admin 1 -> profissional 2 -> cliente
 }
