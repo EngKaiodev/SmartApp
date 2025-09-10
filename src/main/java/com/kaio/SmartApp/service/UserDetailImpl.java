@@ -24,7 +24,7 @@ public class UserDetailImpl implements UserDetails{
     public static UserDetailImpl build(UserModel user){
         return new UserDetailImpl(
             user.getId(),
-            user.getUsername(),
+            user.getEmail(),
             user.getPassword(),
             new ArrayList<>()
         );

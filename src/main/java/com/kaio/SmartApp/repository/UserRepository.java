@@ -8,5 +8,5 @@ import com.kaio.SmartApp.entity.UserModel;
 
 
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
-    Optional<UserModel> findByUsername(String username);
+    Optional<UserModel> findByEmail(String email);
 }
