@@ -86,4 +86,15 @@ public class UserService {
         return UserMapper.toResponse(entity);
     }
 
+    public UserModel getEntityByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(
+            () -> new EntityNotFoundException("Usuário com email " + email + " não encontrado.")
+        );
+    }
+
+    public int getTypeByEmail(String email){
+        UserModel user = getEntityByEmail(email);
+        return user.getType();
+    }
+
 }

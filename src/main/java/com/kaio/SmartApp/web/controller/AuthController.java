@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kaio.SmartApp.DTO.AcessDTO;
+import com.kaio.SmartApp.DTO.user.request.LoginRequestDTO;
 import com.kaio.SmartApp.DTO.user.request.UserRequestDTO;
 import com.kaio.SmartApp.service.AuthService;
 import com.kaio.SmartApp.service.UserService;
@@ -21,7 +22,7 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<AcessDTO> login(@RequestBody UserRequestDTO request) {
+    public ResponseEntity<AcessDTO> login(@RequestBody LoginRequestDTO request) {
         AcessDTO response = authService.login(request);
         return ResponseEntity.ok(response);
     }

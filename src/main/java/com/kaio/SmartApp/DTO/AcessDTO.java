@@ -9,5 +9,5 @@ import lombok.Setter;
 public class AcessDTO {
 
     private String token;
-
+    private int type;
 }
