@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.kaio.SmartApp.DTO.AcessDTO;
 import com.kaio.SmartApp.DTO.user.request.LoginRequestDTO;
+import com.kaio.SmartApp.entity.UserModel;
 import com.kaio.SmartApp.security.jwl.JwtUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -30,9 +31,9 @@ public class AuthService {
 
             UserDetailImpl user = (UserDetailImpl) auth.getPrincipal();
             String token = jwtUtils.generationTokenFromUserDetailsImpl(user);
-            int type = userService.getTypeByEmail(request.getEmail());
+            UserModel model = userService.getEntityByEmail(request.getEmail());
             
-            return new AcessDTO(token, type);
+            return new AcessDTO(model.getId(), token, model.getType());
 
         } catch (BadCredentialsException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos.");
