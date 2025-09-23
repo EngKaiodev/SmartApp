@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.kaio.SmartApp.DTO.AcessDTO;
 import com.kaio.SmartApp.DTO.user.request.LoginRequestDTO;
+import com.kaio.SmartApp.DTO.user.request.UserRequestDTO;
 import com.kaio.SmartApp.entity.UserModel;
 import com.kaio.SmartApp.security.jwl.JwtUtils;
 
@@ -31,15 +32,36 @@ public class AuthService {
 
             UserDetailImpl user = (UserDetailImpl) auth.getPrincipal();
             String token = jwtUtils.generationTokenFromUserDetailsImpl(user);
+            String refreshToken = jwtUtils.generateRefreshToken(user.getUsername());
             UserModel model = userService.getEntityByEmail(request.getEmail());
             
-            return new AcessDTO(model.getId(), token, model.getType());
+            return new AcessDTO(model.getId(), token, refreshToken, model.getType());
 
         } catch (BadCredentialsException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos.");
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao realizar login.");
         }
+    }
+
+    public String doRefresh(String refreshToken){
+        if (refreshToken == null || !jwtUtils.validateJwtToken(refreshToken)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token inválido");
+        }
+
+        String username = jwtUtils.getUserNameToken(refreshToken);
+        UserModel user = userService.getEntityByEmail(username);
+        String newToken = jwtUtils.generationTokenFromUserDetailsImpl(
+                UserDetailImpl.build(user)
+        );
+
+        return newToken;
+    }
+
+    public AcessDTO register(UserRequestDTO request){
+        String rawPassword = request.getPassword();
+        UserModel newUser = userService.save(request);
+        return login(new LoginRequestDTO(newUser.getEmail(), rawPassword));
     }
 
 }

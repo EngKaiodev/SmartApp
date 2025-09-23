@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hibernate.PropertyValueException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handlerSQLIntegrityConstraintViolationException(
             SQLIntegrityConstraintViolationException ex) {
         ErrorResponse errorResponse = new ErrorResponse();

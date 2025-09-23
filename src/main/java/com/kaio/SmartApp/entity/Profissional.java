@@ -37,7 +37,7 @@ public class Profissional implements Serializable{
     private String contato;
     @Column(nullable=false, unique=false, length=100) 
     private String email;
-    @Column(nullable=false, unique=false, length=100) 
+    @Column(nullable=false, unique=false) 
     private String senha;
     @Column(nullable=false, unique=true, length=100) 
     private String cnpj;

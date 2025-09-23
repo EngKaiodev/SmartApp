@@ -27,12 +27,23 @@ public class JwtUtils {
     @Value("${projeto.jwtExpirationMs}")
     private Duration jwtExpirationMs;
 
+    @Value("${projeto.jwtRefreshExpirationMs}")
+    private Duration REFRESH_EXPIRATION;
+
     public String generationTokenFromUserDetailsImpl(UserDetailImpl userDetailsImpl) {
         return Jwts.builder()
                 .subject(userDetailsImpl.getUsername())
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + jwtExpirationMs.toMillis()))
                 .signWith(getSigninKey(), SignatureAlgorithm.HS512).compact();
+    }
+
+    public String generateRefreshToken(String username) {
+        return Jwts.builder()
+                .subject(username)
+                .expiration(new Date(new Date().getTime() + REFRESH_EXPIRATION.toMillis()))
+                .signWith(SignatureAlgorithm.HS512, getSigninKey())
+                .compact();
     }
 
     public Key getSigninKey() {

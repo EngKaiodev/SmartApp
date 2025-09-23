@@ -36,7 +36,7 @@ public class Cliente implements Serializable{
     private String email;
     @Column(nullable=false, unique=true, length=50) 
     private String telefone;
-    @Column(nullable=false, unique=false, length=50) 
+    @Column(nullable=false, unique=false) 
     private String senha; 
     @Column(nullable=false, unique=true, length=50) 
     private String cpf_cnpj;

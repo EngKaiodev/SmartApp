@@ -10,5 +10,6 @@ public class AcessDTO {
 
     private int id;
     private String token;
+    private String refreshToken;
     private int type;
 }

@@ -42,4 +42,6 @@ public class UserRequestDTO {
     @Min(value = 0, message = "Tipo deve ser no mínimo 0, 0 -> admin, 1 -> profissional, 2 -> cliente")
     @Max(value = 2, message = "Tipo deve ser no máximo 2, 0 -> admin, 1 -> profissional, 2 -> cliente")
     private Integer type; // 0 -> admin, 1 -> profissional, 2 -> cliente
+
+    
 }
