@@ -9,6 +9,7 @@ import lombok.Setter;
 public class AcessDTO {
 
     private int id;
+    private String name;
     private String token;
     private String refreshToken;
     private int type;

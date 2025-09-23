@@ -5,47 +5,25 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
-import com.kaio.SmartApp.entity.Profissional;
-import com.kaio.SmartApp.repository.ProfissionalRepository;
+import com.kaio.SmartApp.DTO.user.UserMapper;
+import com.kaio.SmartApp.DTO.user.response.UserResponseDTO;
+import com.kaio.SmartApp.entity.UserModel;
+import com.kaio.SmartApp.repository.UserRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class ProfissionalService {
 
-    private final ProfissionalRepository profissionalRepository;
+    private final UserRepository profissionalRepository;
 
     @Transactional(readOnly = true)
-    public List<ProfissionalGetResponseDTO> SelectAll() {
-        List<Profissional> profissionais = profissionalRepository.findAll();
-
-        List<ProfissionalGetResponseDTO> responseDTOs = profissionais.stream()
-                .map(Profissional::toGetDTO)
-                .toList();
-
-        return responseDTOs;
-    }
-
-    public ProfissionalGetResponseDTO selectById(int id) {
-        return selectEntityById(id).toGetDTO();
-    }
-
-    public Profissional selectEntityById(int id) {
-        return profissionalRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Profissional com id " + id + " não encontrado"));
-    }
-
-    @Transactional
-    public ProfissionalGetResponseDTO save(Profissional profissional) {
-        Profissional profissionalSaved = profissionalRepository.save(profissional);
-        return profissionalSaved.toGetDTO();
-    }
-
-    @Transactional
-    public void deleteById(int id) {
-        profissionalRepository.deleteById(id);
+    public List<UserResponseDTO> getAll(){
+        List<UserModel> models = profissionalRepository.findAllByType(1);
+        List<UserResponseDTO> response = models.stream()
+        .map(UserMapper::toResponse)
+        .toList();
+        return response;
     }
 }

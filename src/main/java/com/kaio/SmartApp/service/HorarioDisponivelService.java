@@ -43,12 +43,12 @@ public class HorarioDisponivelService {
                 () -> new EntityNotFoundException("Horário com id " + id + " não encontrado"));
     }
 
-    @Transactional
+    /*@Transactional
     public HorarioDisponivelGetResponseDTO save(HorarioDisponivelRequestDTO horarioDisponivel) {
         Profissional profissional = profissionalService.selectEntityById(horarioDisponivel.getId_profissional());
         HorarioDisponivel response = horarioDisponivelRepository.save(horarioDisponivel.toEntity(profissional));
         return response.toGetDTO();
-    }
+    }*/
 
     @Transactional
     public void deleteById(int id) {

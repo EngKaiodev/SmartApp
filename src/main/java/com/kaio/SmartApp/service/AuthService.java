@@ -35,7 +35,7 @@ public class AuthService {
             String refreshToken = jwtUtils.generateRefreshToken(user.getUsername());
             UserModel model = userService.getEntityByEmail(request.getEmail());
             
-            return new AcessDTO(model.getId(), token, refreshToken, model.getType());
+            return new AcessDTO(model.getId(), model.getComplete_name(), token, refreshToken, model.getType());
 
         } catch (BadCredentialsException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos.");

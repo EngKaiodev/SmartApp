@@ -37,11 +37,11 @@ public class HorarioDisponivelController {
         return ResponseEntity.ok().body(response);
     }
     
-    @PostMapping()
+    /*@PostMapping()
     public ResponseEntity<HorarioDisponivelGetResponseDTO> insert(@RequestBody HorarioDisponivelRequestDTO horarioDisponivel){
         HorarioDisponivelGetResponseDTO response = horarioDisponivelService.save(horarioDisponivel);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id){
