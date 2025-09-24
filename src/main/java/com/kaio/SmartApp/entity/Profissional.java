@@ -53,12 +53,6 @@ public class Profissional implements Serializable{
     private List<HorarioDisponivel> horarioDisponiveis = new ArrayList<>();
 
     public ProfissionalGetResponseDTO toGetDTO(){
-        return new ProfissionalGetResponseDTO(
-            getId_profissional(),
-            getRazao_social(),
-            getContato(),
-            getEmail(),
-            getServicos()
-        );
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.kaio.SmartApp.DTO.user;
 
+import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 import com.kaio.SmartApp.DTO.user.request.UserRequestDTO;
 import com.kaio.SmartApp.DTO.user.response.UserResponseDTO;
 import com.kaio.SmartApp.entity.UserModel;
@@ -34,5 +35,15 @@ public final class UserMapper {
         model.setEmail(request.getEmail());
         model.setDocument(request.getDocument());
         model.setType(request.getType());
+    }
+
+    public static ProfissionalGetResponseDTO toProResponse(Object[] userObj){
+        ProfissionalGetResponseDTO dto = new ProfissionalGetResponseDTO();
+        dto.setId(((Number) userObj[0]).intValue());   
+        dto.setComplete_name((String) userObj[1]);     
+        dto.setPhone((String) userObj[2]);             
+        dto.setRate(userObj[3] != null ? ((Number) userObj[3]).doubleValue() : null); 
+        dto.setReviewsCount(((Number) userObj[4]).intValue());      
+        return dto;
     }
 }

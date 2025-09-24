@@ -1,9 +1,5 @@
 package com.kaio.SmartApp.DTO.profissional.response;
 
-import java.util.List;
-
-import com.kaio.SmartApp.entity.Servicos;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,9 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfissionalGetResponseDTO {
-    private int id_profissional;
-    private String razao_social;
-    private String contato;
-    private String email;
-    private List<Servicos> especialidades;
+    private int id;
+    private String complete_name;
+    private String phone;
+    private Double rate;
+    private int reviewsCount;
 }
