@@ -34,16 +34,12 @@ public class Servicos implements Serializable{
     private float price;
     @Column(nullable=false, unique=false, length=50) 
     private int duration;
+    private int pro_id;
 
-    @ManyToMany(mappedBy = "servicos")
-    @JsonBackReference
-    private List<Profissional> profissionais = new ArrayList<>();
-
-    public Servicos(String name, String description, float price, int duration, List<Profissional> profissionais) {
+    public Servicos(String name, String description, float price, int duration) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.duration = duration;
-        this.profissionais = profissionais;
     }
 }

@@ -40,10 +40,10 @@ public final class UserMapper {
     public static ProfissionalGetResponseDTO toProResponse(Object[] userObj){
         ProfissionalGetResponseDTO dto = new ProfissionalGetResponseDTO();
         dto.setId(((Number) userObj[0]).intValue());   
-        dto.setComplete_name((String) userObj[1]);     
+        dto.setCompleteName((String) userObj[1]);     
         dto.setPhone((String) userObj[2]);             
         dto.setRate(userObj[3] != null ? ((Number) userObj[3]).doubleValue() : null); 
-        dto.setReviewsCount(((Number) userObj[4]).intValue());      
+        dto.setReviewsCount(((Number) userObj[4]).intValue());
         return dto;
     }
 }

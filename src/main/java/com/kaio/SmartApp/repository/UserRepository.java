@@ -17,12 +17,12 @@ public interface UserRepository extends JpaRepository<UserModel, Integer> {
         u.id,
         u.complete_name,
         u.phone,
-        AVG(r.review) as rate,
-        COUNT(*) as reviewsCount
+        COALESCE(AVG(r.review), 5) AS rate,
+        COALESCE(COUNT(r.id), 0) AS reviewsCount
     FROM users u
-        join reviews r on r.pro_id = u.id
-    where   u.type = 1
-    GROUP BY u.id, u.complete_name, u.phone
+    LEFT JOIN reviews r ON r.pro_id = u.id
+    WHERE u.type = 1
+    GROUP BY u.id, u.complete_name, u.phone;
     """, nativeQuery = true)
     List<Object[]> findPros();
 }

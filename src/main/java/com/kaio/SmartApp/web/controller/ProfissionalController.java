@@ -14,14 +14,15 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/Profissionais")
+@RequestMapping("/profissional")
 public class ProfissionalController {
 
     private final ProfissionalService profissionalService;
 
     @GetMapping()
-    public ResponseEntity<List<ProfissionalGetResponseDTO>> getAll() {
-        List<ProfissionalGetResponseDTO> response = profissionalService.getAll();
-        return ResponseEntity.ok().body(response);
+    public ResponseEntity<List<ProfissionalGetResponseDTO>> getAll(){
+        List<ProfissionalGetResponseDTO> responseDTOs = profissionalService.getAll();
+        return ResponseEntity.ok().body(responseDTOs);
     }
+
 }
