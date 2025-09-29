@@ -37,4 +37,9 @@ public class ServicosService {
     public void deleteById(int id) {
         servicosRepository.deleteById(id);
     }
+
+    @Transactional(readOnly = true)
+    public List<Servicos> getAllByProId(int id){
+        return servicosRepository.findAllByProId(id);
+    }
 }

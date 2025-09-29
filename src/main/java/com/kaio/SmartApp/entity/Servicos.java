@@ -34,7 +34,8 @@ public class Servicos implements Serializable{
     private float price;
     @Column(nullable=false, unique=false, length=50) 
     private int duration;
-    private int pro_id;
+    @Column(name = "pro_id", nullable = false)
+    private int proId;
 
     public Servicos(String name, String description, float price, int duration) {
         this.name = name;

@@ -35,18 +35,11 @@ public class ProfissionalService {
 
     @Transactional(readOnly = true)
     public ProfissionalDetailResponse getProDetail(int id){
-        UserModel userModel = profissionalRepository.findById(id).orElseThrow( 
-            () -> new EntityNotFoundException("Profissional não encontrado") );
+        List<Object[]> obj = profissionalRepository.findOneById(id);
+        ProfissionalGetResponseDTO proResponse = UserMapper.toProResponse(obj.get(0));
 
-        //List<Servicos> servicos = servicosService.SelectAll();
+        List<Servicos> servicos = servicosService.getAllByProId(proResponse.getId());
 
-            return null; /* new ProfissionalDetailResponse(
-                userModel.getId(),
-                userModel.getComplete_name(), 
-                userModel.getPhone(), 
-                userModel.getEmail(), 
-                null,
-                null
-                );*/
+            return new ProfissionalDetailResponse(proResponse, servicos);
     }
 }
