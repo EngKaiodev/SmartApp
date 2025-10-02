@@ -2,13 +2,14 @@ package com.kaio.SmartApp.service;
 
 import java.util.List;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalDetailResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
+import com.kaio.SmartApp.DTO.reviews.response.ReviewSimpleResponse;
 import com.kaio.SmartApp.DTO.user.UserMapper;
+import com.kaio.SmartApp.DTO.user.response.MyselfResponse;
 import com.kaio.SmartApp.entity.Servicos;
 import com.kaio.SmartApp.entity.UserModel;
 import com.kaio.SmartApp.repository.UserRepository;
@@ -38,8 +39,21 @@ public class ProfissionalService {
         List<Object[]> obj = profissionalRepository.findOneById(id);
         ProfissionalGetResponseDTO proResponse = UserMapper.toProResponse(obj.get(0));
 
-        List<Servicos> servicos = servicosService.getAllByProId(proResponse.getId());
+        List<Servicos> servicos = servicosService.getAllByProId(id);
 
-            return new ProfissionalDetailResponse(proResponse, servicos);
+        List<ReviewSimpleResponse> reviews = reviewService.getLast3byId(id);
+
+            return new ProfissionalDetailResponse(proResponse, servicos, reviews);
+    }
+
+    @Transactional(readOnly = true)
+    public UserModel getEntityByEmail(String email){
+        return profissionalRepository.findByEmail(email).orElseThrow(
+            () -> new EntityNotFoundException("Usuário com email " + email + " não encontrado.")
+        );
+    }
+
+    public MyselfResponse getMyselfResponse(String email){
+        return UserMapper.toMyselfResponse(getEntityByEmail(email));
     }
 }

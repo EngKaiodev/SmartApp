@@ -2,6 +2,7 @@ package com.kaio.SmartApp.DTO.user;
 
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 import com.kaio.SmartApp.DTO.user.request.UserRequestDTO;
+import com.kaio.SmartApp.DTO.user.response.MyselfResponse;
 import com.kaio.SmartApp.DTO.user.response.UserResponseDTO;
 import com.kaio.SmartApp.entity.UserModel;
 
@@ -45,5 +46,16 @@ public final class UserMapper {
         dto.setRate(userObj[3] != null ? ((Number) userObj[3]).doubleValue() : null); 
         dto.setReviewsCount(((Number) userObj[4]).intValue());
         return dto;
+    }
+
+    public static MyselfResponse toMyselfResponse(UserModel userModel){
+        return new MyselfResponse(
+            userModel.getId(),
+            userModel.getComplete_name(),
+            userModel.getPhone(),
+            userModel.getEmail(), 
+            userModel.getDocument(), 
+            userModel.getType()
+            );
     }
 }
