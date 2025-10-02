@@ -1,5 +1,7 @@
 package com.kaio.SmartApp.DTO.user.response;
 
+import com.kaio.SmartApp.DTO.address.response.AddressResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,4 +15,5 @@ public class MyselfResponse {
     private String email;
     private String document;
     private int type;
+    private AddressResponse address;
 }

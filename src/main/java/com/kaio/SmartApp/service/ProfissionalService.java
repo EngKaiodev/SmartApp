@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kaio.SmartApp.DTO.address.response.AddressResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalDetailResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 import com.kaio.SmartApp.DTO.reviews.response.ReviewSimpleResponse;
@@ -24,6 +25,7 @@ public class ProfissionalService {
     private final UserRepository profissionalRepository;
     private final ServicosService servicosService;
     private final ReviewService reviewService;
+    private final AddressService addressService;
 
     @Transactional(readOnly = true)
     public List<ProfissionalGetResponseDTO> getAll(){
@@ -54,6 +56,8 @@ public class ProfissionalService {
     }
 
     public MyselfResponse getMyselfResponse(String email){
-        return UserMapper.toMyselfResponse(getEntityByEmail(email));
+        UserModel user = getEntityByEmail(email);
+        AddressResponse address = addressService.getEntityByUserId(user.getId());
+        return UserMapper.toMyselfResponse(user, address);
     }
 }

@@ -1,5 +1,6 @@
 package com.kaio.SmartApp.DTO.user;
 
+import com.kaio.SmartApp.DTO.address.response.AddressResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 import com.kaio.SmartApp.DTO.user.request.UserRequestDTO;
 import com.kaio.SmartApp.DTO.user.response.MyselfResponse;
@@ -48,14 +49,15 @@ public final class UserMapper {
         return dto;
     }
 
-    public static MyselfResponse toMyselfResponse(UserModel userModel){
+    public static MyselfResponse toMyselfResponse(UserModel userModel, AddressResponse address){
         return new MyselfResponse(
             userModel.getId(),
             userModel.getComplete_name(),
             userModel.getPhone(),
             userModel.getEmail(), 
             userModel.getDocument(), 
-            userModel.getType()
+            userModel.getType(),
+            address
             );
     }
 }
