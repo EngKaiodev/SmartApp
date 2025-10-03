@@ -10,6 +10,7 @@ import com.kaio.SmartApp.DTO.profissional.response.ProfissionalDetailResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 import com.kaio.SmartApp.DTO.reviews.response.ReviewSimpleResponse;
 import com.kaio.SmartApp.DTO.user.UserMapper;
+import com.kaio.SmartApp.DTO.user.request.UserEditRequest;
 import com.kaio.SmartApp.DTO.user.response.MyselfResponse;
 import com.kaio.SmartApp.entity.Servicos;
 import com.kaio.SmartApp.entity.UserModel;
@@ -61,5 +62,15 @@ public class ProfissionalService {
         UserModel user = getEntityByEmail(email);
         AddressResponse address = addressService.getEntityByUserId(user.getId());
         return UserMapper.toMyselfResponse(user, address);
+    }
+
+    public MyselfResponse editMyself(UserEditRequest request, String email){
+        UserModel user = getEntityByEmail(email);
+
+        UserMapper.upgradeWithEditRequest(user, request);
+
+        user = profissionalRepository.save(user);
+
+        return getMyselfResponse(email);
     }
 }

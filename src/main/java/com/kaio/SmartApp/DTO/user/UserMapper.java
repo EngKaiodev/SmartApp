@@ -2,6 +2,7 @@ package com.kaio.SmartApp.DTO.user;
 
 import com.kaio.SmartApp.DTO.address.response.AddressResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
+import com.kaio.SmartApp.DTO.user.request.UserEditRequest;
 import com.kaio.SmartApp.DTO.user.request.UserRequestDTO;
 import com.kaio.SmartApp.DTO.user.response.MyselfResponse;
 import com.kaio.SmartApp.DTO.user.response.UserResponseDTO;
@@ -39,6 +40,15 @@ public final class UserMapper {
         model.setEmail(request.getEmail());
         model.setDocument(request.getDocument());
         model.setType(request.getType());
+    }
+
+    public static void upgradeWithEditRequest(UserModel model, UserEditRequest request){
+        model.setComplete_name(request.getCompleteName());
+        model.setAltername(request.getAlterName());
+        model.setPhone(request.getPhone());
+        model.setDocument(request.getDocument());
+        model.setDescription(request.getDescription());
+        model.setEmail(request.getEmail());
     }
 
     public static ProfissionalGetResponseDTO toProResponse(Object[] userObj){
