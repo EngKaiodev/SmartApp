@@ -15,5 +15,7 @@ public class MyselfResponse {
     private String email;
     private String document;
     private int type;
+    private String alterName;
+    private String description;
     private AddressResponse address;
 }

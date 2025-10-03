@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.kaio.SmartApp.DTO.AcessDTO;
+import com.kaio.SmartApp.DTO.address.AddressMapper;
 import com.kaio.SmartApp.DTO.user.request.LoginRequestDTO;
 import com.kaio.SmartApp.DTO.user.request.UserRequestDTO;
+import com.kaio.SmartApp.entity.Address;
 import com.kaio.SmartApp.entity.UserModel;
 import com.kaio.SmartApp.security.jwl.JwtUtils;
 
@@ -22,6 +24,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final UserService userService;
+    private final AddressService addressService;
 
     public AcessDTO login(LoginRequestDTO request) {
         try {
@@ -61,7 +64,9 @@ public class AuthService {
     public AcessDTO register(UserRequestDTO request){
         String rawPassword = request.getPassword();
         UserModel newUser = userService.save(request);
+        Address address = AddressMapper.userRequestToEntity(request);
+        address.setUserId(newUser.getId());
+        addressService.save(address);
         return login(new LoginRequestDTO(newUser.getEmail(), rawPassword));
     }
-
 }

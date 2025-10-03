@@ -18,6 +18,8 @@ public final class UserMapper {
         model.setEmail(request.getEmail());
         model.setDocument(request.getDocument());
         model.setType(request.getType());
+        model.setAltername(request.getAlterName());
+        model.setDescription(request.getDescription());
         return model;
     }
 
@@ -57,6 +59,8 @@ public final class UserMapper {
             userModel.getEmail(), 
             userModel.getDocument(), 
             userModel.getType(),
+            userModel.getAltername(),
+            userModel.getDescription(),
             address
             );
     }

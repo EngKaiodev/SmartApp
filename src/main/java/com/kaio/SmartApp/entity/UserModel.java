@@ -36,4 +36,11 @@ public class UserModel {
 
     @Column(nullable = false, unique = false)
     private int type; //0 -> admin 1 -> profissional 2 -> cliente
+
+    @Column(nullable = true, unique = false)
+    private String altername;
+
+    @Column(nullable = true, unique = false)
+    private String description;
+
 }

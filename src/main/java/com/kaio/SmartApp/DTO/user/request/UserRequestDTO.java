@@ -1,5 +1,7 @@
 package com.kaio.SmartApp.DTO.user.request;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -43,5 +45,14 @@ public class UserRequestDTO {
     @Max(value = 2, message = "Tipo deve ser no máximo 2, 0 -> admin, 1 -> profissional, 2 -> cliente")
     private Integer type; // 0 -> admin, 1 -> profissional, 2 -> cliente
 
-    
+    private String alterName;
+    private String description;
+
+    @NotNull(message = "Cep é obrigatório")
+    @Length(min = 8, max = 8,message = "O Cep deve ter 8 dígitos")
+    private String zipcode;
+    @NotNull(message = "O endereço é obrigatório")
+    private String address;
+    @NotNull(message = "O número é obrigatório")
+    private String number;
 }
