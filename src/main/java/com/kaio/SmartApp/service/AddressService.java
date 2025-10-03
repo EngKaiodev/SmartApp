@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kaio.SmartApp.DTO.address.AddressMapper;
+import com.kaio.SmartApp.DTO.address.request.AddressEditRequest;
 import com.kaio.SmartApp.DTO.address.response.AddressResponse;
 import com.kaio.SmartApp.entity.Address;
 import com.kaio.SmartApp.repository.AddressRepository;
@@ -39,6 +40,19 @@ public class AddressService {
         Address address = repository.findByUserId(id).orElseThrow(
             () -> new EntityNotFoundException("Endereço com userDd " + id + " não encontrado.")
         );
+        return AddressMapper.toResponse(address);
+    }
+
+    @Transactional(readOnly = false)
+    public AddressResponse editAddress(AddressEditRequest request){
+        Address address = repository.findByUserId(request.getUserId()).orElseThrow(
+            () -> new EntityNotFoundException("Endereço com userDd " + request.getUserId() + " não encontrado.")
+        );
+
+        AddressMapper.upgrade(address, request);
+
+        address = repository.save(address);
+
         return AddressMapper.toResponse(address);
     }
 

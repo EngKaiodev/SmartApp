@@ -31,4 +31,8 @@ public class UserEditRequest {
     private String document;
     private String alterName;
     private String description;
+
+    private String zipcode;
+    private String address;
+    private String number;
 }

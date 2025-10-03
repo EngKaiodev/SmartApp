@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kaio.SmartApp.DTO.address.request.AddressEditRequest;
 import com.kaio.SmartApp.DTO.address.response.AddressResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalDetailResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
@@ -70,6 +71,10 @@ public class ProfissionalService {
         UserMapper.upgradeWithEditRequest(user, request);
 
         user = profissionalRepository.save(user);
+
+        addressService.editAddress(
+            new AddressEditRequest(user.getId(), request.getZipcode(), request.getAddress(), request.getNumber())
+        );
 
         return getMyselfResponse(email);
     }
