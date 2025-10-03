@@ -45,7 +45,9 @@ public class ProfissionalService {
 
         List<ReviewSimpleResponse> reviews = reviewService.getLast3byId(id);
 
-            return new ProfissionalDetailResponse(proResponse, servicos, reviews);
+        AddressResponse address = addressService.getEntityByUserId(id);
+
+            return new ProfissionalDetailResponse(proResponse, servicos, reviews, address);
     }
 
     @Transactional(readOnly = true)

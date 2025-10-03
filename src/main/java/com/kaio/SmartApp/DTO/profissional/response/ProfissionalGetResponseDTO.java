@@ -13,5 +13,6 @@ public class ProfissionalGetResponseDTO {
     private String phone;
     private Double rate;
     private int reviewsCount;
-
+    private String altername;
+    private String description;
 }

@@ -48,6 +48,8 @@ public final class UserMapper {
         dto.setPhone((String) userObj[2]);             
         dto.setRate(userObj[3] != null ? ((Number) userObj[3]).doubleValue() : null); 
         dto.setReviewsCount(((Number) userObj[4]).intValue());
+        dto.setAltername((String) userObj[5]);
+        dto.setDescription((String) userObj[6]);
         return dto;
     }
 

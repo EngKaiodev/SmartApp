@@ -20,11 +20,13 @@ public interface UserRepository extends JpaRepository<UserModel, Integer> {
         u.complete_name,
         u.phone,
         COALESCE(AVG(r.review), 5) AS rate,
-        COALESCE(COUNT(r.id), 0) AS reviewsCount
+        COALESCE(COUNT(r.id), 0) AS reviewsCount,
+        u.altername,
+        u.description
     FROM users u
     LEFT JOIN reviews r ON r.pro_id = u.id
     WHERE u.type = 1
-    GROUP BY u.id, u.complete_name, u.phone;
+    GROUP BY u.id, u.complete_name, u.phone, u.altername, u.description;
     """, nativeQuery = true)
     List<Object[]> findPros();
 
@@ -34,11 +36,13 @@ public interface UserRepository extends JpaRepository<UserModel, Integer> {
         u.complete_name,
         u.phone,
         COALESCE(AVG(r.review), 5) AS rate,
-        COALESCE(COUNT(r.id), 0) AS reviewsCount
+        COALESCE(COUNT(r.id), 0) AS reviewsCount,
+        u.altername,
+        u.description
     FROM users u
     LEFT JOIN reviews r ON r.pro_id = u.id
     WHERE u.id = :id and u.type = 1
-    GROUP BY u.id, u.complete_name, u.phone LIMIT 1;
+    GROUP BY u.id, u.complete_name, u.phone, u.altername, u.description LIMIT 1;
     """, nativeQuery = true)
     List<Object[]> findOneById(@Param("id") int id);
 }

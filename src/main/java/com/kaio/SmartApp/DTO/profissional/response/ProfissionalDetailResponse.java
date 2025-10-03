@@ -2,6 +2,7 @@ package com.kaio.SmartApp.DTO.profissional.response;
 
 import java.util.List;
 
+import com.kaio.SmartApp.DTO.address.response.AddressResponse;
 import com.kaio.SmartApp.DTO.reviews.response.ReviewSimpleResponse;
 import com.kaio.SmartApp.entity.Servicos;
 
@@ -17,4 +18,5 @@ public class ProfissionalDetailResponse {
     private ProfissionalGetResponseDTO profissional;
     private List<Servicos> servicos;
     private List<ReviewSimpleResponse> reviews;
+    private AddressResponse address;
 }
