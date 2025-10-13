@@ -12,33 +12,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kaio.SmartApp.entity.Servicos;
+import com.kaio.SmartApp.DTO.servicos.request.ServicoRequest;
+import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.service.ServicosService;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/Servicos")
+@RequestMapping("/services")
 public class ServicosController {
 
     private final ServicosService serviceService;
 
     @GetMapping
-    public ResponseEntity<List<Servicos>> getAll(){
-        List<Servicos> response = serviceService.SelectAll();        
+    public ResponseEntity<List<ServicoResponse>> getAll(){
+        List<ServicoResponse> response = serviceService.SelectAll();        
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Servicos> getById(int id){
-        Servicos response = serviceService.selectById(id);
+    public ResponseEntity<ServicoResponse> getById(int id){
+        ServicoResponse response = serviceService.selectById(id);
         return ResponseEntity.ok().body(response);
     }
 
     @PostMapping
-    public ResponseEntity<Servicos> save(@RequestBody Servicos servicos){
-        Servicos response = serviceService.save(servicos);
+    public ResponseEntity<ServicoResponse> save(@RequestBody ServicoRequest request){
+        ServicoResponse response = serviceService.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/list")
+    public ResponseEntity<List<ServicoResponse>> saveList(@RequestBody List<ServicoRequest> requestList){
+        List<ServicoResponse> response = serviceService.saveList(requestList);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

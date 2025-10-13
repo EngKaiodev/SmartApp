@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.function.ServerRequest;
 
+import com.kaio.SmartApp.DTO.servicos.ServicosMapper;
+import com.kaio.SmartApp.DTO.servicos.request.ServicoRequest;
+import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.entity.Servicos;
 import com.kaio.SmartApp.repository.ServicosRepository;
 
@@ -18,19 +22,37 @@ public class ServicosService {
     private final ServicosRepository servicosRepository;
 
     @Transactional(readOnly = true)
-    public List<Servicos> SelectAll() {
-        return servicosRepository.findAll();
+    public List<ServicoResponse> SelectAll() {
+        List<ServicoResponse> rList = servicosRepository
+                                .findAll()
+                                .stream()
+                                .map(ServicosMapper::toResponse)
+                                .toList();
+        return rList;
     }
 
     @Transactional(readOnly = true)
-    public Servicos selectById(int id) {
+    public ServicoResponse selectById(int id) {
+        return ServicosMapper.toResponse(selectEntityById(id));
+    }
+
+    @Transactional(readOnly = true)
+    public Servicos selectEntityById(int id) {
         return servicosRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Serviço com id " + id + " não encontrado"));
     }
 
     @Transactional
-    public Servicos save(Servicos servicos) {
-        return servicosRepository.save(servicos);
+    public ServicoResponse save(ServicoRequest request) {
+        Servicos response = servicosRepository.save(ServicosMapper.toEntity(request));
+        return ServicosMapper.toResponse(response);
+    }
+
+    @Transactional
+    public List<ServicoResponse> saveList(List<ServicoRequest> requestList){
+        List<Servicos> toSave = requestList.stream().map(ServicosMapper::toEntity).toList();
+        List<Servicos> response = servicosRepository.saveAll(toSave);
+        return response.stream().map(ServicosMapper::toResponse).toList();
     }
 
     @Transactional
