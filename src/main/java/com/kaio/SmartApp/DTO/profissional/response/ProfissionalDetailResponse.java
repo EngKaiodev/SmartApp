@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.kaio.SmartApp.DTO.address.response.AddressResponse;
 import com.kaio.SmartApp.DTO.reviews.response.ReviewSimpleResponse;
-import com.kaio.SmartApp.entity.Servicos;
-
+import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ import lombok.Setter;
 public class ProfissionalDetailResponse {
 
     private ProfissionalGetResponseDTO profissional;
-    private List<Servicos> servicos;
+    private List<ServicoResponse> servicos;
     private List<ReviewSimpleResponse> reviews;
     private AddressResponse address;
 }

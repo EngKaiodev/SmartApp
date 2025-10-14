@@ -1,5 +1,6 @@
 package com.kaio.SmartApp.DTO.servicos;
 
+import com.kaio.SmartApp.DTO.servicos.request.ServicoEditRequest;
 import com.kaio.SmartApp.DTO.servicos.request.ServicoRequest;
 import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.entity.Servicos;
@@ -25,5 +26,12 @@ public class ServicosMapper {
             model.getPrice(), 
             model.getDuration()
             );
+    }
+
+    public static void update(Servicos old, ServicoEditRequest newRequest){
+        old.setName(newRequest.getName());
+        old.setDescription(newRequest.getDescription());
+        old.setPrice(newRequest.getPrice());
+        old.setDuration(newRequest.getDuration());
     }
 }

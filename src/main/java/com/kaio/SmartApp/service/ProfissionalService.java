@@ -10,10 +10,10 @@ import com.kaio.SmartApp.DTO.address.response.AddressResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalDetailResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 import com.kaio.SmartApp.DTO.reviews.response.ReviewSimpleResponse;
+import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.DTO.user.UserMapper;
 import com.kaio.SmartApp.DTO.user.request.UserEditRequest;
 import com.kaio.SmartApp.DTO.user.response.MyselfResponse;
-import com.kaio.SmartApp.entity.Servicos;
 import com.kaio.SmartApp.entity.UserModel;
 import com.kaio.SmartApp.repository.UserRepository;
 
@@ -43,7 +43,7 @@ public class ProfissionalService {
         List<Object[]> obj = profissionalRepository.findOneById(id);
         ProfissionalGetResponseDTO proResponse = UserMapper.toProResponse(obj.get(0));
 
-        List<Servicos> servicos = servicosService.getAllByProId(id);
+        List<ServicoResponse> servicos = servicosService.getAllByProId(id);
 
         List<ReviewSimpleResponse> reviews = reviewService.getLast3byId(id);
 

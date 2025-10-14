@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.function.ServerRequest;
-
 import com.kaio.SmartApp.DTO.servicos.ServicosMapper;
+import com.kaio.SmartApp.DTO.servicos.request.ServicoEditRequest;
 import com.kaio.SmartApp.DTO.servicos.request.ServicoRequest;
 import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.entity.Servicos;
@@ -61,7 +60,18 @@ public class ServicosService {
     }
 
     @Transactional(readOnly = true)
-    public List<Servicos> getAllByProId(int id){
-        return servicosRepository.findAllByProId(id);
+    public List<ServicoResponse> getAllByProId(int id){
+        List<Servicos> response = servicosRepository.findAllByProId(id);
+        return response.stream().map(ServicosMapper::toResponse).toList();
+    }
+
+    public ServicoResponse editService(ServicoEditRequest request) {
+        Servicos existing = selectEntityById(request.getId());
+
+        ServicosMapper.update(existing, request);
+
+        existing = servicosRepository.save(existing);
+
+        return ServicosMapper.toResponse(existing);
     }
 }
