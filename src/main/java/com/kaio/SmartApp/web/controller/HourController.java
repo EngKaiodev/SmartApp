@@ -1,11 +1,11 @@
 package com.kaio.SmartApp.web.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/hour")
 @Controller
 public class HourController {
@@ -31,12 +32,8 @@ public class HourController {
     @PostMapping("/list")
     public ResponseEntity<List<HourResponse>> saveList(
             @Valid @RequestBody List<HourRequest> list) {
-        List<HourResponse> responses = new ArrayList<>();
-
-        for (HourRequest request : list) {
-            HourResponse response = service.save(request);
-            responses.add(response);
-        }
+        
+                List<HourResponse> responses = service.saveOrUpdateAll(list);
 
         return ResponseEntity.ok(responses);
     }

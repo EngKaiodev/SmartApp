@@ -8,11 +8,15 @@ public class HourMapper {
     public static HourResponse toResponse(Hours hours){
         return new HourResponse(
             hours.getId(), 
-            hours.getDay(), 
+            hours.getDay(),
             hours.getInitHourMorning(), 
+            hours.getInitMinuteMorning(),
             hours.getEndHourMorning(), 
+            hours.getEndMinuteMorning(),
             hours.getInitHourAfternoon(), 
-            hours.getEndHourAfternoon()
+            hours.getInitMinuteAfternoon(),
+            hours.getEndHourAfternoon(),
+            hours.getEndMinuteAfternoon()
         );
     }
 
@@ -20,10 +24,18 @@ public class HourMapper {
         Hours hours =  new Hours();
         hours.setUserId(request.getUserId());
         hours.setDay(request.getDay());
+
         hours.setInitHourMorning(request.getInitHourMorning());
+        hours.setInitMinuteMorning(request.getInitMinuteMorning());
+
         hours.setInitHourAfternoon(request.getInitHourAfternoon());
+        hours.setInitMinuteAfternoon(request.getInitMinuteAfternoon());
+
         hours.setEndHourMorning(request.getEndHourMorning());
+        hours.setEndMinuteMorning(request.getEndMinuteMorning());
+
         hours.setEndHourAfternoon(request.getEndHourAfternoon());
+        hours.setEndMinuteAfternoon(request.getEndMinuteAfternoon());
         return hours;
     }
 }

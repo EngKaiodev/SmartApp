@@ -19,12 +19,16 @@ public class Hours {
     private int id;
     private int userId;
     private int day; // 1 = segunda ... 7 = domingo
+
     private int initHourMorning;
     private int initMinuteMorning;
+
     private int endHourMorning;
     private int endMinuteMorning;
+
     private int initHourAfternoon;
     private int initMinuteAfternoon;
+    
     private int endHourAfternoon;
     private int endMinuteAfternoon;
 }
