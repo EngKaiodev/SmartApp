@@ -1,5 +1,9 @@
 package com.kaio.SmartApp.DTO.hour.response;
 
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,17 +12,11 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class HourResponse {
     private int id;
-    private int day; //1 a 7 começando na segunda e terminando no domingo.
-    
-    private int initHourMorning;
-    private int initMinuteMorning;
 
-    private int endHourMorning;
-    private int endMinuteMorning;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime initHour;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime endHour;
 
-    private int initHourAfternoon;
-    private int initMinuteAfternoon;
-    
-    private int endHourAfternoon;
-    private int endMinuteAfternoon;
+    private String status;
 }

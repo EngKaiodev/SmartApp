@@ -1,7 +1,12 @@
 package com.kaio.SmartApp.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,51 +27,84 @@ public class HourService {
     private final HourRepository repository;
 
     @Transactional(readOnly = false)
-    public HourResponse save(HourRequest hour){
+    public HourResponse save(HourRequest hour) {
         Hours toSave = HourMapper.toEntity(hour);
         return HourMapper.toResponse(toSave);
     }
 
-    @Transactional(readOnly = true)
-    private Hours getEntityById(int id){
-        return repository.findById(id).orElseThrow(
-            () -> new EntityNotFoundException("Horário com id " + id + " não encontrado")
-        );
-    }
-
-    @Transactional(readOnly = true)
-    public List<Hours> getEntityByUserId(int id){
-        return repository.findAllByUserId(id);
-    }
-
     @Transactional
-    public List<HourResponse> saveOrUpdateAll(List<HourRequest> hoursList) {
-        List<Hours> result = new ArrayList<>();
-
-        for (HourRequest hour : hoursList) {
-            Hours existing = repository.findByUserIdAndDay(hour.getUserId(), hour.getDay()).orElse(null);
-
-            if (existing != null) {
-                Hours entity = existing;
-
-                entity.setInitHourMorning(hour.getInitHourMorning());
-                entity.setInitMinuteMorning(hour.getInitMinuteMorning());
-                entity.setEndHourMorning(hour.getEndHourMorning());
-                entity.setEndMinuteMorning(hour.getEndMinuteMorning());
-                entity.setInitHourAfternoon(hour.getInitHourAfternoon());
-                entity.setInitMinuteAfternoon(hour.getInitMinuteAfternoon());
-                entity.setEndHourAfternoon(hour.getEndHourAfternoon());
-                entity.setEndMinuteAfternoon(hour.getEndMinuteAfternoon());
-
-                result.add(entity);
-            } else {
-                result.add(HourMapper.toEntity(hour));
-            }
+    public List<HourResponse> saveOrUpdateList(List<HourRequest> hoursList) {
+        if (hoursList == null || hoursList.isEmpty()) {
+            throw new IllegalArgumentException("Lista de horários vazia.");
         }
 
-        List<Hours> response = repository.saveAll(result);
+        int userId = hoursList.get(0).getUserId();
+        List<Hours> finalResult = new ArrayList<>();
 
-        return response.stream().map(HourMapper::toResponse).toList();
+        Map<LocalDate, List<HourRequest>> groupedByDate = hoursList.stream()
+                .collect(Collectors.groupingBy(h -> h.getInitHour().toLocalDate()));
+
+        for (Map.Entry<LocalDate, List<HourRequest>> entry : groupedByDate.entrySet()) {
+            LocalDate date = entry.getKey();
+
+            if (date.equals(LocalDate.now())) {
+                throw new IllegalArgumentException("Não é possível alterar horários do dia atual (" + date + ").");
+            }
+
+            List<HourRequest> listForDate = entry.getValue();
+
+            List<Hours> existingList = repository.findAllByUserIdAndDateAndStatus(userId, date, "opened");
+
+            List<Hours> newList = listForDate.stream()
+                    .map(HourMapper::toEntity)
+                    .toList();
+
+            Map<LocalDateTime, Hours> newMap = newList.stream()
+                    .collect(Collectors.toMap(Hours::getInitHour, h -> h));
+
+            List<Hours> toRemove = existingList.stream()
+                    .filter(existing -> !newMap.containsKey(existing.getInitHour()))
+                    .toList();
+
+            if (!toRemove.isEmpty()) {
+                repository.deleteAll(toRemove);
+            }
+
+            Set<LocalDateTime> existingHours = existingList.stream()
+                    .map(Hours::getInitHour)
+                    .collect(Collectors.toSet());
+
+            List<Hours> toAdd = newList.stream()
+                    .filter(newHour -> !existingHours.contains(newHour.getInitHour()))
+                    .toList();
+
+            if (!toAdd.isEmpty()) {
+                repository.saveAll(toAdd);
+            }
+
+            finalResult.addAll(repository.findAllByUserIdAndDateAndStatus(userId, date, "opened"));
+        }
+
+        return finalResult.stream()
+                .map(HourMapper::toResponse)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    private Hours getEntityById(int id) {
+        return repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Horário com id " + id + " não encontrado"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Hours> getEntityListByUserIdAndDateAndStatus(int id, LocalDate date, String status) {
+        return repository.findAllByUserIdAndDateAndStatus(id, date, status);
+    }
+
+    public List<HourResponse> getAllByUserIdAndDateAndStatus(int id, LocalDate date, String status) {
+        List<Hours> responses = getEntityListByUserIdAndDateAndStatus(id, date, status);
+
+        return responses.stream().map(HourMapper::toResponse).toList();
     }
 
 }
