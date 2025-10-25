@@ -111,4 +111,15 @@ public class HourService {
         return responses.stream().map(HourMapper::toResponse).toList();
     }
 
+    @Transactional(readOnly = false)
+    public HourResponse updateStatusById(int id, String status){
+        Hours hour = getEntityById(id);
+
+        hour.setStatus(status);
+
+        hour = repository.save(hour);
+
+        return HourMapper.toResponse(hour);
+    }
+
 }

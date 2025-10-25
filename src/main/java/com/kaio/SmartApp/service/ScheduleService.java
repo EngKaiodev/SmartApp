@@ -15,6 +15,7 @@ import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.entity.Schedule;
 import com.kaio.SmartApp.repository.ScheduleRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -74,5 +75,38 @@ public class ScheduleService {
         }
 
         return responses;
+    }
+
+    @Transactional(readOnly = true)
+    public Schedule getEntityById(int id){
+        return scheduleRepository.findById(id).orElseThrow(
+            () -> new EntityNotFoundException("Agendamento com id " + id + " não encontrado.")
+        );
+    }
+
+    @Transactional(readOnly = false)
+    public boolean confirmScheduleById(int id){
+        Schedule schedule = getEntityById(id);
+
+        if (schedule.getStatus() == 0) {
+            schedule.setStatus(1);
+        }
+
+        scheduleRepository.save(schedule);
+
+        return true;
+    }
+
+    @Transactional(readOnly = false)
+    public boolean cancelSchedule(int id){
+        Schedule schedule = getEntityById(id);
+
+        schedule.setStatus(2);
+
+        hourService.updateStatusById(schedule.getHourId(), "opened");
+
+        scheduleRepository.save(schedule);
+
+        return true;
     }
 }

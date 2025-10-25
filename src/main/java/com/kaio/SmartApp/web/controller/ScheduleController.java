@@ -39,4 +39,18 @@ public class ScheduleController {
         List<ScheduleResponse> responses = scheduleService.getAllByProId(id);
         return ResponseEntity.ok().body(responses);
     }
+
+    @PostMapping("{id}/confirm")
+    public ResponseEntity<Boolean> confirmScheduleById(@PathVariable("id") int id){
+        Boolean response = scheduleService.confirmScheduleById(id);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("{id}/cancel")
+    public ResponseEntity<Boolean> cancelScheduleById(@PathVariable("id") int id){
+        Boolean response = scheduleService.cancelSchedule(id);
+
+        return ResponseEntity.ok().body(response);
+    }
 }
