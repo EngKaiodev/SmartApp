@@ -15,4 +15,5 @@ public class ScheduleResponse {
     private ProfissionalGetResponseDTO profissional;
     private ServicoResponse servico;
     private HourResponse hour;
+    private int status;
 }

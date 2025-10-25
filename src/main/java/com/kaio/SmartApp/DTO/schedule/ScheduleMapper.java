@@ -15,7 +15,8 @@ public class ScheduleMapper {
             request.getUserId(), 
             request.getProId(),
             request.getServiceId(),
-            request.getHourId());
+            request.getHourId(),
+            0);
     }
 
     public static ScheduleResponse toResponse(Schedule schedule, ProfissionalGetResponseDTO pro, ServicoResponse servico, HourResponse hour){
@@ -24,6 +25,7 @@ public class ScheduleMapper {
         response.setProfissional(pro);
         response.setServico(servico);
         response.setHour(hour);
+        response.setStatus(schedule.getStatus());
 
         return response;
     }

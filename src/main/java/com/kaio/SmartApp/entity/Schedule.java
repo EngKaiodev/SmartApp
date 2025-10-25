@@ -21,4 +21,5 @@ public class Schedule {
     private int proId;
     private int serviceId;
     private int hourId;
+    private int status; // 0 - aguardando confirmação 1 - confirmado 2 - cancelado
 }

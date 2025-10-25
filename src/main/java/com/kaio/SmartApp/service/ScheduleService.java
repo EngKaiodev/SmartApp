@@ -31,7 +31,11 @@ public class ScheduleService {
         ServicoResponse servico = servicesService.selectById(request.getServiceId());
         HourResponse hour = hourService.getById(request.getHourId());
 
-        Schedule response = scheduleRepository.save(ScheduleMapper.toEntity(request));
+        Schedule response = ScheduleMapper.toEntity(request);
+
+        response.setStatus(0);
+
+        response = scheduleRepository.save(response);
 
         return ScheduleMapper.toResponse(response, pro, servico, hour);
     }
