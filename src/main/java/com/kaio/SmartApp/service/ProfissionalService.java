@@ -53,6 +53,13 @@ public class ProfissionalService {
     }
 
     @Transactional(readOnly = true)
+    public ProfissionalGetResponseDTO getPro(int id){
+        List<Object[]> obj = profissionalRepository.findOneById(id);
+        ProfissionalGetResponseDTO proResponse = UserMapper.toProResponse(obj.get(0));
+        return proResponse;
+    }
+
+    @Transactional(readOnly = true)
     public UserModel getEntityByEmail(String email){
         return profissionalRepository.findByEmail(email).orElseThrow(
             () -> new EntityNotFoundException("Usuário com email " + email + " não encontrado.")

@@ -96,6 +96,10 @@ public class HourService {
                 () -> new EntityNotFoundException("Horário com id " + id + " não encontrado"));
     }
 
+    public HourResponse getById(int id){
+        return HourMapper.toResponse(getEntityById(id));
+    }
+
     @Transactional(readOnly = true)
     public List<Hours> getEntityListByUserIdAndDateAndStatus(int id, LocalDate date, String status) {
         return repository.findAllByUserIdAndDateAndStatus(id, date, status);
