@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kaio.SmartApp.DTO.servicos.ServicosMapper;
 import com.kaio.SmartApp.DTO.servicos.request.ServicoEditRequest;
 import com.kaio.SmartApp.DTO.servicos.request.ServicoRequest;
+import com.kaio.SmartApp.DTO.servicos.response.IServiceCompleteResponse;
 import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.entity.Servicos;
 import com.kaio.SmartApp.repository.ServicosRepository;
@@ -21,12 +22,9 @@ public class ServicosService {
     private final ServicosRepository servicosRepository;
 
     @Transactional(readOnly = true)
-    public List<ServicoResponse> SelectAll() {
-        List<ServicoResponse> rList = servicosRepository
-                                .findAll()
-                                .stream()
-                                .map(ServicosMapper::toResponse)
-                                .toList();
+    public List<IServiceCompleteResponse> SelectAll() {
+        List<IServiceCompleteResponse> rList = servicosRepository
+                                .findAllResponse();
         return rList;
     }
 

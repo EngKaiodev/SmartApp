@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kaio.SmartApp.DTO.reviews.ReviewMapper;
 import com.kaio.SmartApp.DTO.reviews.interfaceProjection.IReviewSimpleResponse;
+import com.kaio.SmartApp.DTO.reviews.request.ReviewRequest;
 import com.kaio.SmartApp.entity.Review;
 import com.kaio.SmartApp.repository.ReviewRepository;
 
@@ -18,8 +20,8 @@ public class ReviewService {
     private final ReviewRepository repository;
 
     @Transactional(readOnly = false)
-    public Boolean save(Review request){
-       repository.save(request);
+    public Boolean save(ReviewRequest request){
+       repository.save(ReviewMapper.toEntity(request));
        return true;
     }
 

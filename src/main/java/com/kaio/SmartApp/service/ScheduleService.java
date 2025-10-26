@@ -29,14 +29,16 @@ public class ScheduleService {
     @Transactional(readOnly = false)
     public ScheduleResponse saveEntity(ScheduleRequest request) {
         ProfissionalGetResponseDTO pro = profissionalService.getPro(request.getProId());
-        ServicoResponse servico = servicesService.selectById(request.getServiceId());
-        HourResponse hour = hourService.getById(request.getHourId());
+        ServicoResponse servico = servicesService.selectById(request.getServiceId());        
 
         Schedule response = ScheduleMapper.toEntity(request);
 
         response.setStatus(0);
 
         response = scheduleRepository.save(response);
+
+        HourResponse hour = hourService.getById(response.getHourId());
+        hourService.updateStatusById(response.getHourId(), "booked");
 
         return ScheduleMapper.toResponse(response, pro, servico, hour);
     }
@@ -104,6 +106,32 @@ public class ScheduleService {
         schedule.setStatus(2);
 
         hourService.updateStatusById(schedule.getHourId(), "opened");
+
+        scheduleRepository.save(schedule);
+
+        return true;
+    }
+
+    @Transactional(readOnly = false)
+    public boolean reviewSchedule(int id){
+        Schedule schedule = getEntityById(id);
+
+        if (schedule.getStatus() == 3) {
+            schedule.setStatus(4);
+        }
+
+        scheduleRepository.save(schedule);
+
+        return true;
+    }
+
+    @Transactional(readOnly = false)
+    public boolean finishSchedule(int id){
+        Schedule schedule = getEntityById(id);
+
+        if (schedule.getStatus() == 1) {
+            schedule.setStatus(3);
+        }
 
         scheduleRepository.save(schedule);
 

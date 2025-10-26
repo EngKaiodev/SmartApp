@@ -10,6 +10,7 @@ import lombok.Setter;
 public class ReviewRequest {
     private int pro_id;
     private int cli_id;
+    private int schedule_id;
     private int review;
     private String comment;
     private LocalDateTime date;

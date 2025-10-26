@@ -53,4 +53,18 @@ public class ScheduleController {
 
         return ResponseEntity.ok().body(response);
     }
+
+    @PostMapping("{id}/review")
+    public ResponseEntity<Boolean> reviewScheduleById(@PathVariable("id") int id){
+        Boolean response = scheduleService.reviewSchedule(id);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("{id}/finish")
+    public ResponseEntity<Boolean> finishScheduleById(@PathVariable("id") int id){
+        Boolean response = scheduleService.finishSchedule(id);
+
+        return ResponseEntity.ok().body(response);
+    }
 }

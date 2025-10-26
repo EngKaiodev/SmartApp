@@ -22,7 +22,7 @@ public class Servicos implements Serializable{
     private int id;
     @Column(nullable=false, unique=false, length=50) 
     private String name;
-    @Column(nullable=false, unique=false, length=50) 
+    @Column(nullable=false, unique=false, columnDefinition = "TEXT") 
     private String description;
     @Column(nullable=false, unique=false, length=50) 
     private float price;

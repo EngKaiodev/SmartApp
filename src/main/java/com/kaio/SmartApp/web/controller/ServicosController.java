@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kaio.SmartApp.DTO.servicos.request.ServicoEditRequest;
 import com.kaio.SmartApp.DTO.servicos.request.ServicoRequest;
+import com.kaio.SmartApp.DTO.servicos.response.IServiceCompleteResponse;
 import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.service.ServicosService;
 
@@ -28,8 +29,8 @@ public class ServicosController {
     private final ServicosService serviceService;
 
     @GetMapping
-    public ResponseEntity<List<ServicoResponse>> getAll(){
-        List<ServicoResponse> response = serviceService.SelectAll();        
+    public ResponseEntity<List<IServiceCompleteResponse>> getAll(){
+        List<IServiceCompleteResponse> response = serviceService.SelectAll();        
         return ResponseEntity.ok().body(response);
     }
 

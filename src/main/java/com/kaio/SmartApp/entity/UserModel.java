@@ -40,7 +40,7 @@ public class UserModel {
     @Column(nullable = true, unique = false)
     private String altername;
 
-    @Column(nullable = true, unique = false)
+    @Column(nullable = true, unique = false, columnDefinition = "TEXT")
     private String description;
 
 }

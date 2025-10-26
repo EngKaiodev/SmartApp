@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kaio.SmartApp.DTO.reviews.request.ReviewRequest;
 import com.kaio.SmartApp.entity.Review;
 import com.kaio.SmartApp.service.ReviewService;
 
@@ -23,7 +24,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping()
-    public ResponseEntity<Boolean> save(@RequestBody Review request){
+    public ResponseEntity<Boolean> save(@RequestBody ReviewRequest request){
         Boolean response = reviewService.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
