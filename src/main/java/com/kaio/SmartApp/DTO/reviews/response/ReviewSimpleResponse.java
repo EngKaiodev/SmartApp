@@ -1,6 +1,8 @@
 package com.kaio.SmartApp.DTO.reviews.response;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +13,8 @@ import lombok.Setter;
 public class ReviewSimpleResponse {
     private String complete_name;
     private String comment;
-    private Timestamp date;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime date;
     private int review;
 }

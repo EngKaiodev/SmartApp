@@ -9,7 +9,7 @@ import com.kaio.SmartApp.DTO.address.request.AddressEditRequest;
 import com.kaio.SmartApp.DTO.address.response.AddressResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalDetailResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
-import com.kaio.SmartApp.DTO.reviews.response.ReviewSimpleResponse;
+import com.kaio.SmartApp.DTO.reviews.interfaceProjection.IReviewSimpleResponse;
 import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.DTO.user.UserMapper;
 import com.kaio.SmartApp.DTO.user.request.UserEditRequest;
@@ -45,7 +45,7 @@ public class ProfissionalService {
 
         List<ServicoResponse> servicos = servicosService.getAllByProId(id);
 
-        List<ReviewSimpleResponse> reviews = reviewService.getLast3byId(id);
+        List<IReviewSimpleResponse> reviews = reviewService.getLast3byId(id);
 
         AddressResponse address = addressService.getEntityByUserId(id);
 

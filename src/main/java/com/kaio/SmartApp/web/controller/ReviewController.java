@@ -23,8 +23,9 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping()
-    public ResponseEntity<Review> save(@RequestBody Review request){
-        return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.save(request));
+    public ResponseEntity<Boolean> save(@RequestBody Review request){
+        Boolean response = reviewService.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping()
