@@ -37,7 +37,6 @@ public class UserRequestDTO {
     private String email;
 
     @NotBlank(message = "Documento é obrigatório")
-    @Pattern(regexp = "\\d{11}", message = "Documento deve conter 11 dígitos (CPF)")
     private String document;
 
     @NotNull(message = "Tipo é obrigatório")

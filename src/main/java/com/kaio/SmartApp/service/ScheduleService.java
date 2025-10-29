@@ -1,6 +1,7 @@
 package com.kaio.SmartApp.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.kaio.SmartApp.DTO.hour.response.HourResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 import com.kaio.SmartApp.DTO.schedule.ScheduleMapper;
 import com.kaio.SmartApp.DTO.schedule.request.ScheduleRequest;
+import com.kaio.SmartApp.DTO.schedule.response.HistoricResponse;
 import com.kaio.SmartApp.DTO.schedule.response.ScheduleResponse;
 import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.entity.Schedule;
@@ -25,6 +27,7 @@ public class ScheduleService {
     private final ProfissionalService profissionalService;
     private final ServicosService servicesService;
     private final HourService hourService;
+    private final ReviewService reviewService;
 
     @Transactional(readOnly = false)
     public ScheduleResponse saveEntity(ScheduleRequest request) {
@@ -136,5 +139,30 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
 
         return true;
+    }
+
+    @Transactional(readOnly = true)
+    public List<HistoricResponse> getScheduleWithRate(String type, int id){
+        List<Schedule> schedules;
+        List<HistoricResponse> responses = new ArrayList<>();
+
+        if (type == "pro") {
+            schedules = scheduleRepository.findAllByProIdAndStatusIn(id, Arrays.asList(2, 4));
+        } else {
+            schedules = scheduleRepository.findAllByUserIdAndStatusIn(id, Arrays.asList(2,4));
+        }
+
+        for (int i = 0; i < schedules.size(); i++) {
+            Schedule item = schedules.get(i);
+
+            ProfissionalGetResponseDTO pro = profissionalService.getPro(item.getProId());
+            ServicoResponse servico = servicesService.selectById(item.getServiceId());
+            HourResponse hour = hourService.getById(item.getHourId());
+            int rate = reviewService.getRateById(item.getId());
+
+            responses.add(ScheduleMapper.toHistoric(item, pro, servico, hour, rate));
+        }
+
+        return responses;
     }
 }

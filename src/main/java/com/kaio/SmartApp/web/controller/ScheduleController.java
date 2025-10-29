@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kaio.SmartApp.DTO.schedule.request.ScheduleRequest;
+import com.kaio.SmartApp.DTO.schedule.response.HistoricResponse;
 import com.kaio.SmartApp.DTO.schedule.response.ScheduleResponse;
 import com.kaio.SmartApp.service.ScheduleService;
 
@@ -64,6 +65,13 @@ public class ScheduleController {
     @PostMapping("{id}/finish")
     public ResponseEntity<Boolean> finishScheduleById(@PathVariable("id") int id){
         Boolean response = scheduleService.finishSchedule(id);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("{type}/{id}/historic")
+    public ResponseEntity<List<HistoricResponse>> getHistoric(@PathVariable("id") int id, @PathVariable("type") String type){
+        List<HistoricResponse> response = scheduleService.getScheduleWithRate(type, id);
 
         return ResponseEntity.ok().body(response);
     }

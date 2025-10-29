@@ -3,6 +3,7 @@ package com.kaio.SmartApp.web.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,18 +36,18 @@ public class HourController {
     @PostMapping("/list")
     public ResponseEntity<List<HourResponse>> saveList(
             @Valid @RequestBody List<HourRequest> list) {
-        
-                List<HourResponse> responses = service.saveOrUpdateList(list);
+
+        List<HourResponse> responses = service.saveOrUpdateList(list);
 
         return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/pro/{id}/{date}/opened")
     public ResponseEntity<List<HourResponse>> getByUserIdAndDateAndStatus(
-        @PathVariable int id,
-        @PathVariable LocalDate date
-    ) {
+            @PathVariable("id") int id,
+            @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         List<HourResponse> responses = service.getAllByUserIdAndDateAndStatus(id, date, "opened");
         return ResponseEntity.ok(responses);
     }
+
 }

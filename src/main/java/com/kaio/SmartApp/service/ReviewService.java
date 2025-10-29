@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kaio.SmartApp.DTO.reviews.ReviewMapper;
 import com.kaio.SmartApp.DTO.reviews.interfaceProjection.IReviewSimpleResponse;
 import com.kaio.SmartApp.DTO.reviews.request.ReviewRequest;
+import com.kaio.SmartApp.DTO.reviews.response.AllReviewResponse;
+import com.kaio.SmartApp.DTO.reviews.response.ReviewDataResponse;
+import com.kaio.SmartApp.DTO.reviews.response.ReviewToList;
 import com.kaio.SmartApp.entity.Review;
 import com.kaio.SmartApp.repository.ReviewRepository;
 
@@ -36,4 +39,17 @@ public class ReviewService {
         return responses;
     }
 
+    @Transactional (readOnly = true)
+    public AllReviewResponse getReviewToList(int proId){
+         ReviewDataResponse data = repository.getAllReviewsData(proId).orElse(null);
+
+         List<ReviewToList> listReview = repository.getReviewsForList(proId);
+
+         return new AllReviewResponse(data, listReview);
+    }
+
+    @Transactional(readOnly = true)
+    public int getRateById(int id){
+        return repository.getRateById(id).orElse(0);
+    }
 }
