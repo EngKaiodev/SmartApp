@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -53,7 +52,10 @@ public class HourService {
 
             List<HourRequest> listForDate = entry.getValue();
 
-            List<Hours> existingList = repository.findAllByUserIdAndDateAndStatus(userId, date, "opened");
+            List<Hours> existingList = repository.findAllByUserIdAndDate(userId, date);
+
+            Map<LocalDateTime, Hours> existingMap = existingList.stream()
+                .collect(Collectors.toMap(Hours::getInitHour, h -> h));
 
             List<Hours> newList = listForDate.stream()
                     .map(HourMapper::toEntity)
@@ -70,17 +72,21 @@ public class HourService {
                 repository.deleteAll(toRemove);
             }
 
-            Set<LocalDateTime> existingHours = existingList.stream()
-                    .map(Hours::getInitHour)
-                    .collect(Collectors.toSet());
+            List<Hours> toSave = newList.stream()
+                .map(newHour -> {
+                    Hours existing = existingMap.get(newHour.getInitHour());
+                    if (existing == null ) {
+                        return newHour;
+                    } else {
+                        return existing;
+                    }
+                })
+                .toList();
 
-            List<Hours> toAdd = newList.stream()
-                    .filter(newHour -> !existingHours.contains(newHour.getInitHour()))
-                    .toList();
+        if (!toSave.isEmpty()) {
+            repository.saveAll(toSave); 
+        }
 
-            if (!toAdd.isEmpty()) {
-                repository.saveAll(toAdd);
-            }
 
             finalResult.addAll(repository.findAllByUserIdAndDateAndStatus(userId, date, "opened"));
         }

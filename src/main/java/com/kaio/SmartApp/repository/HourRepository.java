@@ -18,6 +18,12 @@ public interface HourRepository extends JpaRepository<Hours, Integer> {
         return findAllByUserIdAndInitHourBetweenAndStatus(userId, start, end, status);
     }
 
+    default List<Hours> findAllByUserIdAndDate(int userId, LocalDate date) {
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.atTime(LocalTime.MAX);
+        return findAllByUserIdAndInitHourBetween(userId, start, end);
+    }
+
     // Busca por usuário e initHour exato (mantida a semântica original)
     Optional<Hours> findByUserIdAndInitHour(int userId, LocalDateTime initHour);
 
@@ -30,6 +36,7 @@ public interface HourRepository extends JpaRepository<Hours, Integer> {
 
     // Métodos auxiliares que o Spring Data JPA consegue gerar automaticamente
     List<Hours> findAllByUserIdAndInitHourBetweenAndStatus(int userId, LocalDateTime start, LocalDateTime end, String status);
+    List<Hours> findAllByUserIdAndInitHourBetween(int userId, LocalDateTime start, LocalDateTime end);
 
     void deleteByUserIdAndInitHourBetweenAndStatusNot(int userId, LocalDateTime start, LocalDateTime end, String status);
 }
