@@ -31,8 +31,9 @@ public class ScheduleService {
 
     @Transactional(readOnly = false)
     public ScheduleResponse saveEntity(ScheduleRequest request) {
+
         ProfissionalGetResponseDTO pro = profissionalService.getPro(request.getProId());
-        ServicoResponse servico = servicesService.selectById(request.getServiceId());        
+        ServicoResponse servico = servicesService.selectById(request.getServiceId());
 
         Schedule response = ScheduleMapper.toEntity(request);
 
@@ -44,6 +45,24 @@ public class ScheduleService {
         hourService.updateStatusById(response.getHourId(), "booked");
 
         return ScheduleMapper.toResponse(response, pro, servico, hour);
+    }
+
+    @Transactional(readOnly = false)
+    public Boolean update(int id, int hourId) {
+        Schedule existis = getEntityById(id);
+
+        hourService.updateStatusById(existis.getHourId(), "opened");
+
+        existis.setHourId(hourId);
+
+        existis.setStatus(0);
+
+        existis = scheduleRepository.save(existis);
+
+        HourResponse hour = hourService.getById(existis.getHourId());
+        hourService.updateStatusById(hour.getId(), "booked");
+
+        return true;
     }
 
     @Transactional(readOnly = true)
@@ -83,14 +102,13 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public Schedule getEntityById(int id){
+    public Schedule getEntityById(int id) {
         return scheduleRepository.findById(id).orElseThrow(
-            () -> new EntityNotFoundException("Agendamento com id " + id + " não encontrado.")
-        );
+                () -> new EntityNotFoundException("Agendamento com id " + id + " não encontrado."));
     }
 
     @Transactional(readOnly = false)
-    public boolean confirmScheduleById(int id){
+    public boolean confirmScheduleById(int id) {
         Schedule schedule = getEntityById(id);
 
         if (schedule.getStatus() == 0) {
@@ -103,7 +121,7 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = false)
-    public boolean cancelSchedule(int id){
+    public boolean cancelSchedule(int id) {
         Schedule schedule = getEntityById(id);
 
         schedule.setStatus(2);
@@ -116,7 +134,7 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = false)
-    public boolean reviewSchedule(int id){
+    public boolean reviewSchedule(int id) {
         Schedule schedule = getEntityById(id);
 
         if (schedule.getStatus() == 3) {
@@ -129,7 +147,7 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = false)
-    public boolean finishSchedule(int id){
+    public boolean finishSchedule(int id) {
         Schedule schedule = getEntityById(id);
 
         if (schedule.getStatus() == 1) {
@@ -142,14 +160,14 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public List<HistoricResponse> getScheduleWithRate(String type, int id){
+    public List<HistoricResponse> getScheduleWithRate(String type, int id) {
         List<Schedule> schedules;
         List<HistoricResponse> responses = new ArrayList<>();
 
         if (type == "pro") {
             schedules = scheduleRepository.findAllByProIdAndStatusIn(id, Arrays.asList(2, 4));
         } else {
-            schedules = scheduleRepository.findAllByUserIdAndStatusIn(id, Arrays.asList(2,4));
+            schedules = scheduleRepository.findAllByUserIdAndStatusIn(id, Arrays.asList(2, 4));
         }
 
         for (int i = 0; i < schedules.size(); i++) {

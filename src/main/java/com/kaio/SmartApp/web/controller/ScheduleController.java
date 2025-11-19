@@ -29,6 +29,15 @@ public class ScheduleController {
         return ResponseEntity.created(null).body(response);
     }
 
+    @PostMapping("/{schedule}/{hour}")
+    public ResponseEntity<Boolean> update(
+        @PathVariable ("schedule") int schedule,
+        @PathVariable ("hour") int hourId
+    ){
+        Boolean response = scheduleService.update(schedule, hourId);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/user/{id}")
     public ResponseEntity<List<ScheduleResponse>> getAllByUserId(@PathVariable("id") int id){
         List<ScheduleResponse> responses = scheduleService.getAllByUserId(id);

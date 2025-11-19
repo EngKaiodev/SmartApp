@@ -42,4 +42,11 @@ public class ScheduleMapper {
 
         return response;
     }
+
+    public static void upgrade(Schedule existis, ScheduleRequest request) {
+        existis.setHourId(request.getHourId());
+        existis.setProId(request.getProId());
+        existis.setServiceId(request.getServiceId());
+        existis.setUserId(request.getUserId());
+    }
 }
