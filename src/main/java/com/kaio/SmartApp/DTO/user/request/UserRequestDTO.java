@@ -54,4 +54,5 @@ public class UserRequestDTO {
     private String address;
     @NotNull(message = "O número é obrigatório")
     private String number;
+    private String tokenFCM;
 }

@@ -37,8 +37,10 @@ public class AuthService {
             String token = jwtUtils.generationTokenFromUserDetailsImpl(user);
             String refreshToken = jwtUtils.generateRefreshToken(user.getUsername());
             UserModel model = userService.getEntityByEmail(request.getEmail());
+            model.setTokenFCM(request.getTokenFCM());
+            model = userService.saveEntity(model);
             
-            return new AcessDTO(model.getId(), model.getComplete_name(), token, refreshToken, model.getType());
+            return new AcessDTO(model.getId(), model.getComplete_name(), token, refreshToken, model.getType(), request.getTokenFCM());
 
         } catch (BadCredentialsException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos.");
@@ -67,6 +69,6 @@ public class AuthService {
         Address address = AddressMapper.userRequestToEntity(request);
         address.setUserId(newUser.getId());
         addressService.save(address);
-        return login(new LoginRequestDTO(newUser.getEmail(), rawPassword));
+        return login(new LoginRequestDTO(newUser.getEmail(), rawPassword, request.getTokenFCM()));
     }
 }

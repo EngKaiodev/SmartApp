@@ -29,12 +29,13 @@ public class ScheduleController {
         return ResponseEntity.created(null).body(response);
     }
 
-    @PostMapping("/{schedule}/{hour}")
+    @PostMapping("/{schedule}/{hour}/{notId}")
     public ResponseEntity<Boolean> update(
         @PathVariable ("schedule") int schedule,
-        @PathVariable ("hour") int hourId
+        @PathVariable ("hour") int hourId,
+        @PathVariable ("notId") int notId
     ){
-        Boolean response = scheduleService.update(schedule, hourId);
+        Boolean response = scheduleService.update(schedule, hourId, notId);
         return ResponseEntity.ok(response);
     }
 
@@ -57,9 +58,12 @@ public class ScheduleController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping("{id}/cancel")
-    public ResponseEntity<Boolean> cancelScheduleById(@PathVariable("id") int id){
-        Boolean response = scheduleService.cancelSchedule(id);
+    @PostMapping("{id}/cancel/{notifyId}")
+    public ResponseEntity<Boolean> cancelScheduleById(
+        @PathVariable("id") int id,
+        @PathVariable("notifyId") int notifyId
+    ){
+        Boolean response = scheduleService.cancelSchedule(id, notifyId);
 
         return ResponseEntity.ok().body(response);
     }
@@ -71,9 +75,12 @@ public class ScheduleController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping("{id}/finish")
-    public ResponseEntity<Boolean> finishScheduleById(@PathVariable("id") int id){
-        Boolean response = scheduleService.finishSchedule(id);
+    @PostMapping("{id}/finish/{notifyId}")
+    public ResponseEntity<Boolean> finishScheduleById(
+        @PathVariable("id") int id,
+        @PathVariable("notifyId") int notifyId
+    ){
+        Boolean response = scheduleService.finishSchedule(id, notifyId);
 
         return ResponseEntity.ok().body(response);
     }

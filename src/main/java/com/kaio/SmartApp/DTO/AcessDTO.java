@@ -13,4 +13,5 @@ public class AcessDTO {
     private String token;
     private String refreshToken;
     private int type;
+    private String tokenFCM;
 }

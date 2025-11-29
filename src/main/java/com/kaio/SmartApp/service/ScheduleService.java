@@ -15,6 +15,7 @@ import com.kaio.SmartApp.DTO.schedule.response.HistoricResponse;
 import com.kaio.SmartApp.DTO.schedule.response.ScheduleResponse;
 import com.kaio.SmartApp.DTO.servicos.response.ServicoResponse;
 import com.kaio.SmartApp.entity.Schedule;
+import com.kaio.SmartApp.fcm.Mensagens;
 import com.kaio.SmartApp.repository.ScheduleRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -28,6 +29,7 @@ public class ScheduleService {
     private final ServicosService servicesService;
     private final HourService hourService;
     private final ReviewService reviewService;
+    private final FcmService fcmService;
 
     @Transactional(readOnly = false)
     public ScheduleResponse saveEntity(ScheduleRequest request) {
@@ -44,11 +46,16 @@ public class ScheduleService {
         HourResponse hour = hourService.getById(response.getHourId());
         hourService.updateStatusById(response.getHourId(), "booked");
 
+        fcmService.enviarNotificacao(
+                request.getProId(),
+                Mensagens.NOTIFICACAO_TITULO_NOVO_AGENDAMENTO,
+                Mensagens.NOTIFICACAO_CORPO_NOVO_AGENDAMENTO);
+
         return ScheduleMapper.toResponse(response, pro, servico, hour);
     }
 
     @Transactional(readOnly = false)
-    public Boolean update(int id, int hourId) {
+    public Boolean update(int id, int hourId, int notifyType) {
         Schedule existis = getEntityById(id);
 
         hourService.updateStatusById(existis.getHourId(), "opened");
@@ -61,6 +68,13 @@ public class ScheduleService {
 
         HourResponse hour = hourService.getById(existis.getHourId());
         hourService.updateStatusById(hour.getId(), "booked");
+
+
+        fcmService.enviarNotificacao(
+                notifyType == 1 ? existis.getUserId() : existis.getProId(),
+                Mensagens.NOTIFICACAO_TITULO_REAGENDAMENTO,
+                Mensagens.NOTIFICACAO_CORPO_REAGENDAMENTO
+            );
 
         return true;
     }
@@ -117,11 +131,17 @@ public class ScheduleService {
 
         scheduleRepository.save(schedule);
 
+        fcmService.enviarNotificacao(
+            schedule.getUserId(), 
+            Mensagens.NOTIFICACAO_TITULO_CONFIRMADO, 
+            Mensagens.NOTIFICACAO_CORPO_CONFIRMADO
+        );
+
         return true;
     }
 
     @Transactional(readOnly = false)
-    public boolean cancelSchedule(int id) {
+    public boolean cancelSchedule(int id, int notifyType) {
         Schedule schedule = getEntityById(id);
 
         schedule.setStatus(2);
@@ -129,6 +149,12 @@ public class ScheduleService {
         hourService.updateStatusById(schedule.getHourId(), "opened");
 
         scheduleRepository.save(schedule);
+
+        fcmService.enviarNotificacao(
+            notifyType == 1 ? schedule.getUserId() : schedule.getProId(),
+            Mensagens.NOTIFICACAO_TITULO_CANCELADO, 
+            Mensagens.NOTIFICACAO_CORPO_CANCELADO
+        );
 
         return true;
     }
@@ -143,11 +169,17 @@ public class ScheduleService {
 
         scheduleRepository.save(schedule);
 
+        fcmService.enviarNotificacao(
+            schedule.getProId(), 
+            Mensagens.NOTIFICACAO_TITULO_AVALIADO,
+            Mensagens.NOTIFICACAO_CORPO_AVALIADO
+        );
+
         return true;
     }
 
     @Transactional(readOnly = false)
-    public boolean finishSchedule(int id) {
+    public boolean finishSchedule(int id, int notifyType) {
         Schedule schedule = getEntityById(id);
 
         if (schedule.getStatus() == 1) {
@@ -155,6 +187,12 @@ public class ScheduleService {
         }
 
         scheduleRepository.save(schedule);
+
+        fcmService.enviarNotificacao(
+            notifyType == 1 ? schedule.getUserId() : schedule.getProId(),
+            Mensagens.NOTIFICACAO_TITULO_FINALIZADO,
+            Mensagens.NOTIFICACAO_CORPO_FINALIZADO
+        );
 
         return true;
     }

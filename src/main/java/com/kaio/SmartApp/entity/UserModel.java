@@ -43,4 +43,7 @@ public class UserModel {
     @Column(nullable = true, unique = false, columnDefinition = "TEXT")
     private String description;
 
+    @Column
+    private String tokenFCM;
+
 }
