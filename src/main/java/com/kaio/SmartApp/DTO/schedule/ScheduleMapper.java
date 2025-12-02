@@ -1,5 +1,6 @@
 package com.kaio.SmartApp.DTO.schedule;
 
+import com.kaio.SmartApp.DTO.cliente.ClienteGetResponse;
 import com.kaio.SmartApp.DTO.hour.response.HourResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 import com.kaio.SmartApp.DTO.schedule.request.ScheduleRequest;
@@ -20,18 +21,32 @@ public class ScheduleMapper {
             0);
     }
 
-    public static ScheduleResponse toResponse(Schedule schedule, ProfissionalGetResponseDTO pro, ServicoResponse servico, HourResponse hour){
+    public static ScheduleResponse toResponse(
+        Schedule schedule, 
+        ProfissionalGetResponseDTO pro, 
+        ServicoResponse servico, 
+        HourResponse hour,
+        ClienteGetResponse cliente
+    ){
         ScheduleResponse response = new ScheduleResponse();
         response.setId(schedule.getId());
         response.setProfissional(pro);
         response.setServico(servico);
         response.setHour(hour);
         response.setStatus(schedule.getStatus());
+        response.setCliente(cliente);
 
         return response;
     }
 
-    public static HistoricResponse toHistoric(Schedule schedule, ProfissionalGetResponseDTO pro, ServicoResponse servico, HourResponse hour, int rate){
+    public static HistoricResponse toHistoric(
+        Schedule schedule, 
+        ProfissionalGetResponseDTO pro, 
+        ServicoResponse servico, 
+        HourResponse hour, 
+        int rate,
+        ClienteGetResponse cliente
+    ){
         HistoricResponse response = new HistoricResponse();
         response.setId(schedule.getId());
         response.setProfissional(pro);
@@ -39,6 +54,7 @@ public class ScheduleMapper {
         response.setHour(hour);
         response.setStatus(schedule.getStatus());
         response.setRate(rate);
+        response.setCliente(cliente);
 
         return response;
     }

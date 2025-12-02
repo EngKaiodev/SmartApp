@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kaio.SmartApp.DTO.address.request.AddressEditRequest;
 import com.kaio.SmartApp.DTO.address.response.AddressResponse;
+import com.kaio.SmartApp.DTO.cliente.ClienteGetResponse;
+import com.kaio.SmartApp.DTO.cliente.ClienteMapper;
 import com.kaio.SmartApp.DTO.user.UserMapper;
 import com.kaio.SmartApp.DTO.user.request.UserEditRequest;
 import com.kaio.SmartApp.DTO.user.response.MyselfResponse;
@@ -46,6 +48,13 @@ public class ClienteService {
         );
 
         return mySelf(email);
+    }
+
+    public ClienteGetResponse getCliente(int userId) {
+        UserModel user = clienteRepository.findById(userId).orElseThrow(
+            () -> new EntityNotFoundException("Usuário com email " + userId + " não encontrado."));
+
+            return ClienteMapper.toResponse(user);
     }
 
 }

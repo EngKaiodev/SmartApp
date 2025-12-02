@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kaio.SmartApp.DTO.cliente.ClienteGetResponse;
 import com.kaio.SmartApp.DTO.hour.response.HourResponse;
 import com.kaio.SmartApp.DTO.profissional.response.ProfissionalGetResponseDTO;
 import com.kaio.SmartApp.DTO.schedule.ScheduleMapper;
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final ProfissionalService profissionalService;
+    private final ClienteService clienteService;
     private final ServicosService servicesService;
     private final HourService hourService;
     private final ReviewService reviewService;
@@ -36,6 +38,7 @@ public class ScheduleService {
 
         ProfissionalGetResponseDTO pro = profissionalService.getPro(request.getProId());
         ServicoResponse servico = servicesService.selectById(request.getServiceId());
+        ClienteGetResponse cliente = clienteService.getCliente(request.getUserId());
 
         Schedule response = ScheduleMapper.toEntity(request);
 
@@ -51,7 +54,7 @@ public class ScheduleService {
                 Mensagens.NOTIFICACAO_TITULO_NOVO_AGENDAMENTO,
                 Mensagens.NOTIFICACAO_CORPO_NOVO_AGENDAMENTO);
 
-        return ScheduleMapper.toResponse(response, pro, servico, hour);
+        return ScheduleMapper.toResponse(response, pro, servico, hour, cliente);
     }
 
     @Transactional(readOnly = false)
@@ -90,8 +93,9 @@ public class ScheduleService {
             ProfissionalGetResponseDTO pro = profissionalService.getPro(item.getProId());
             ServicoResponse servico = servicesService.selectById(item.getServiceId());
             HourResponse hour = hourService.getById(item.getHourId());
+            ClienteGetResponse cliente = clienteService.getCliente(item.getUserId());
 
-            responses.add(ScheduleMapper.toResponse(item, pro, servico, hour));
+            responses.add(ScheduleMapper.toResponse(item, pro, servico, hour, cliente));
         }
 
         return responses;
@@ -108,8 +112,9 @@ public class ScheduleService {
             ProfissionalGetResponseDTO pro = profissionalService.getPro(item.getProId());
             ServicoResponse servico = servicesService.selectById(item.getServiceId());
             HourResponse hour = hourService.getById(item.getHourId());
+            ClienteGetResponse cliente = clienteService.getCliente(item.getUserId());
 
-            responses.add(ScheduleMapper.toResponse(item, pro, servico, hour));
+            responses.add(ScheduleMapper.toResponse(item, pro, servico, hour, cliente));
         }
 
         return responses;
@@ -202,7 +207,7 @@ public class ScheduleService {
         List<Schedule> schedules;
         List<HistoricResponse> responses = new ArrayList<>();
 
-        if (type == "pro") {
+        if (type.equals("pro")) {
             schedules = scheduleRepository.findAllByProIdAndStatusIn(id, Arrays.asList(2, 4));
         } else {
             schedules = scheduleRepository.findAllByUserIdAndStatusIn(id, Arrays.asList(2, 4));
@@ -215,8 +220,9 @@ public class ScheduleService {
             ServicoResponse servico = servicesService.selectById(item.getServiceId());
             HourResponse hour = hourService.getById(item.getHourId());
             int rate = reviewService.getRateById(item.getId());
+            ClienteGetResponse cliente = clienteService.getCliente(item.getUserId());
 
-            responses.add(ScheduleMapper.toHistoric(item, pro, servico, hour, rate));
+            responses.add(ScheduleMapper.toHistoric(item, pro, servico, hour, rate, cliente));
         }
 
         return responses;
