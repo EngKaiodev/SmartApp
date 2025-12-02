@@ -24,7 +24,7 @@ public class ServicosService {
     @Transactional(readOnly = true)
     public List<IServiceCompleteResponse> SelectAll() {
         List<IServiceCompleteResponse> rList = servicosRepository
-                                .findAllResponse();
+                .findAllResponse();
         return rList;
     }
 
@@ -41,12 +41,14 @@ public class ServicosService {
 
     @Transactional
     public ServicoResponse save(ServicoRequest request) {
-        Servicos response = servicosRepository.save(ServicosMapper.toEntity(request));
+        Servicos response = ServicosMapper.toEntity(request);
+        response.setAtive(true);
+        response = servicosRepository.save(response);
         return ServicosMapper.toResponse(response);
     }
 
     @Transactional
-    public List<ServicoResponse> saveList(List<ServicoRequest> requestList){
+    public List<ServicoResponse> saveList(List<ServicoRequest> requestList) {
         List<Servicos> toSave = requestList.stream().map(ServicosMapper::toEntity).toList();
         List<Servicos> response = servicosRepository.saveAll(toSave);
         return response.stream().map(ServicosMapper::toResponse).toList();
@@ -54,12 +56,14 @@ public class ServicosService {
 
     @Transactional
     public void deleteById(int id) {
-        servicosRepository.deleteById(id);
+        Servicos exists = selectEntityById(id);
+        exists.setAtive(false);
+        servicosRepository.save(exists);
     }
 
     @Transactional(readOnly = true)
-    public List<ServicoResponse> getAllByProId(int id){
-        List<Servicos> response = servicosRepository.findAllByProId(id);
+    public List<ServicoResponse> getAllByProId(int id) {
+        List<Servicos> response = servicosRepository.findAllByProIdAndAtive(id, true);
         return response.stream().map(ServicosMapper::toResponse).toList();
     }
 

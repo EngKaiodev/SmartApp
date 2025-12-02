@@ -30,4 +30,6 @@ public class Servicos implements Serializable{
     private int duration;
     @Column(name = "pro_id", nullable = false)
     private int proId;
+    @Column(name = "ative", nullable = false)
+    private boolean ative;
 }

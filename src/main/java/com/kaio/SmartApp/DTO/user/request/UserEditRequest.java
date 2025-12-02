@@ -27,7 +27,6 @@ public class UserEditRequest {
     private String email;
 
     @NotBlank(message = "Documento é obrigatório")
-    @Pattern(regexp = "\\d{11}", message = "Documento deve conter 11 dígitos (CPF)")
     private String document;
     private String alterName;
     private String description;

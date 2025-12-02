@@ -10,7 +10,7 @@ import com.kaio.SmartApp.entity.Servicos;
 
 public interface ServicosRepository extends JpaRepository<Servicos, Integer> {
 
-    List<Servicos> findAllByProId(int proId);
+    List<Servicos> findAllByProIdAndAtive(int proId, boolean ative);
 
     @Query(value = """
                         SELECT
@@ -20,6 +20,7 @@ public interface ServicosRepository extends JpaRepository<Servicos, Integer> {
              u.id as profissionalId,
              u.complete_name as profissionalName
             FROM servicos s join users u on u.id = s.pro_id
+            WHERE s.ative = 1;
                         """, nativeQuery = true)
     List<IServiceCompleteResponse> findAllResponse();
 
